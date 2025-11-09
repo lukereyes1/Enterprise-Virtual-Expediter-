@@ -1,0 +1,23 @@
+# ETF Proxy Tickers
+# Maps each theme to representative ETF tickers for sector/style exposure
+
+proxies:
+  unprofitable_growth:
+    - ARKK  # ARK Innovation ETF
+    - ARKW  # ARK Next Generation Internet ETF
+    - XLK   # Technology Select Sector SPDR
+
+  overleveraged_smallcaps:
+    - IWM   # iShares Russell 2000 ETF
+    - SLY   # SPDR S&P 600 Small Cap ETF
+    - IJR   # iShares Core S&P Small-Cap ETF
+
+  highbeta_consumer:
+    - XLY   # Consumer Discretionary Select Sector SPDR
+    - XRT   # SPDR S&P Retail ETF
+    - FXD   # First Trust Consumer Discretionary AlphaDEX
+
+  weak_financials:
+    - XLF   # Financial Select Sector SPDR
+    - KRE   # SPDR S&P Regional Banking ETF
+    - IAI   # iShares U.S. Broker-Dealers & Securities Exchanges ETF

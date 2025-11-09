@@ -1,0 +1,31 @@
+# Theme Configuration
+# Defines base weights and macro sensitivities for each theme
+
+themes:
+  unprofitable_growth:
+    base_weight: 0.25
+    sensitivities:
+      downturn: 0.4
+      inflation: 0.2
+      liquidity: 0.3
+
+  overleveraged_smallcaps:
+    base_weight: 0.25
+    sensitivities:
+      downturn: 0.3
+      inflation: 0.1
+      liquidity: 0.5
+
+  highbeta_consumer:
+    base_weight: 0.25
+    sensitivities:
+      downturn: 0.5
+      inflation: 0.4
+      liquidity: 0.1
+
+  weak_financials:
+    base_weight: 0.25
+    sensitivities:
+      downturn: 0.6
+      inflation: 0.2
+      liquidity: 0.2

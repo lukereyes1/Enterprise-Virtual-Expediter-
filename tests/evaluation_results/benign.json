@@ -1,0 +1,44 @@
+{
+  "name": "benign",
+  "macro_regime": {
+    "downturn": 0.2,
+    "inflation": 0.3,
+    "liquidity": 0.2
+  },
+  "total_candidates": 100,
+  "avg_global_score": 10.3,
+  "median_global_score": 11.34,
+  "score_std_dev": 9.64,
+  "sector_distribution": {
+    "Consumer Discretionary": 25,
+    "Financials": 25,
+    "Technology": 25,
+    "Industrials": 25
+  },
+  "theme_distribution": {
+    "Unprofitable Growth": 78,
+    "High Beta Consumer": 11,
+    "Weak Financials": 11
+  },
+  "sector_concentration": 0.25,
+  "top_20_avg_score": 24.55,
+  "top_20_sectors": {
+    "Consumer Discretionary": 8,
+    "Financials": 10,
+    "Technology": 1,
+    "Industrials": 1
+  },
+  "top_20_themes": {
+    "Unprofitable Growth": 11,
+    "High Beta Consumer": 5,
+    "Weak Financials": 4
+  },
+  "factor_scores": {
+    "valuation": 66.73,
+    "profitability": 59.57,
+    "leverage": 50.73,
+    "quality": 50.3,
+    "growth": 36.05,
+    "market": 46.75
+  }
+}

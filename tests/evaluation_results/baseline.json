@@ -1,0 +1,43 @@
+{
+  "name": "baseline",
+  "macro_regime": {
+    "downturn": 0.5,
+    "inflation": 0.5,
+    "liquidity": 0.5
+  },
+  "total_candidates": 100,
+  "avg_global_score": 10.26,
+  "median_global_score": 11.26,
+  "score_std_dev": 9.61,
+  "sector_distribution": {
+    "Consumer Discretionary": 25,
+    "Financials": 25,
+    "Technology": 25,
+    "Industrials": 25
+  },
+  "theme_distribution": {
+    "Unprofitable Growth": 78,
+    "High Beta Consumer": 11,
+    "Weak Financials": 11
+  },
+  "sector_concentration": 0.25,
+  "top_20_avg_score": 24.5,
+  "top_20_sectors": {
+    "Consumer Discretionary": 8,
+    "Financials": 11,
+    "Technology": 1
+  },
+  "top_20_themes": {
+    "Unprofitable Growth": 10,
+    "High Beta Consumer": 5,
+    "Weak Financials": 5
+  },
+  "factor_scores": {
+    "valuation": 64.87,
+    "profitability": 59.78,
+    "leverage": 52.2,
+    "quality": 50.12,
+    "growth": 37.45,
+    "market": 47.55
+  }
+}

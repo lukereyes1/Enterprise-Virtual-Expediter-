@@ -1,0 +1,42 @@
+{
+  "name": "stress",
+  "macro_regime": {
+    "downturn": 0.9,
+    "inflation": 0.8,
+    "liquidity": 0.8
+  },
+  "total_candidates": 100,
+  "avg_global_score": 10.26,
+  "median_global_score": 11.17,
+  "score_std_dev": 9.62,
+  "sector_distribution": {
+    "Consumer Discretionary": 25,
+    "Financials": 25,
+    "Technology": 25,
+    "Industrials": 25
+  },
+  "theme_distribution": {
+    "Unprofitable Growth": 78,
+    "High Beta Consumer": 11,
+    "Weak Financials": 11
+  },
+  "sector_concentration": 0.25,
+  "top_20_avg_score": 24.54,
+  "top_20_sectors": {
+    "Consumer Discretionary": 8,
+    "Financials": 12
+  },
+  "top_20_themes": {
+    "Unprofitable Growth": 9,
+    "High Beta Consumer": 5,
+    "Weak Financials": 6
+  },
+  "factor_scores": {
+    "valuation": 61.88,
+    "profitability": 60.48,
+    "leverage": 51.78,
+    "quality": 50.2,
+    "growth": 39.5,
+    "market": 47.05
+  }
+}
