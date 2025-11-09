@@ -1,0 +1,148 @@
+# ShortScreen Service Configuration
+# Settings for continuous analytics service operation
+
+# Job Schedules
+schedules:
+  # Full refresh: once daily after market close (4:30 PM ET = 21:30 UTC)
+  full_refresh_daily:
+    enabled: true
+    cron: "30 21 * * 1-5"  # Mon-Fri at 9:30 PM UTC (4:30 PM ET)
+    timeout_seconds: 1800   # 30 minutes
+
+  # Incremental updates during market hours
+  incremental_intraday:
+    enabled: true
+    interval_minutes: 15
+    market_hours_only: true
+    market_open_utc: "13:30"   # 9:30 AM ET
+    market_close_utc: "20:00"  # 4:00 PM ET
+    timeout_seconds: 300       # 5 minutes
+
+# Data Store Configuration
+datastore:
+  # Cache directory (relative to project root)
+  cache_dir: ".shortscreen_cache"
+
+  # Fundamentals cache settings
+  fundamentals:
+    format: "parquet"  # parquet, json, or csv
+    max_age_days: 1    # Refresh if older than 1 day
+    compression: "snappy"
+
+  # Market data cache settings
+  market_data:
+    format: "parquet"
+    max_age_minutes: 15  # Refresh if older than 15 minutes
+    compression: "snappy"
+
+  # Screening results cache
+  results:
+    format: "json"
+    keep_history: true
+    max_history_days: 30
+
+# Data Provider Configuration
+data_provider:
+  # Provider type: mock, yfinance, alpha_vantage, etc.
+  provider: "mock"
+
+  # API settings (for real providers)
+  api:
+    rate_limit_per_minute: 200
+    batch_size: 100
+    timeout_seconds: 30
+
+  # Retry policy
+  retry:
+    max_attempts: 3
+    initial_backoff_seconds: 2
+    max_backoff_seconds: 16
+    exponential_base: 2
+
+  # Health check
+  health_check:
+    enabled: true
+    timeout_seconds: 5
+    endpoint: "https://api.example.com/health"  # Provider-specific
+
+# Universe Configuration
+universe:
+  # Default universe size
+  default_size: 100
+
+  # Production universe size
+  production_size: 5000
+
+  # Filters
+  filters:
+    min_market_cap_millions: 100
+    min_avg_volume: 100000
+    exclude_sectors: []
+
+# Performance Settings
+performance:
+  # Use vectorized operations
+  use_vectorization: true
+
+  # Parallel processing
+  max_workers: 4
+
+  # Batch sizes for processing
+  factor_computation_batch_size: 1000
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "json"  # json or text
+
+  # Log destinations
+  console:
+    enabled: true
+    level: "INFO"
+
+  file:
+    enabled: true
+    level: "DEBUG"
+    path: "logs/shortscreen.log"
+    max_bytes: 10485760  # 10 MB
+    backup_count: 5
+
+  # Metrics logging
+  metrics:
+    enabled: true
+    log_job_duration: true
+    log_universe_size: true
+    log_phase_timings: true
+
+# Health and Monitoring
+health:
+  # Status check interval
+  check_interval_seconds: 60
+
+  # Degraded mode thresholds
+  degraded_mode:
+    stale_fundamentals_hours: 48
+    stale_market_data_hours: 4
+
+  # Alerts (for future integration)
+  alerts:
+    enabled: false
+    email: []
+    slack_webhook: null
+
+# Output Configuration
+output:
+  # Default number of top candidates
+  default_top_n: 20
+
+  # Export formats
+  export_formats:
+    - json
+    - csv
+    - parquet
+
+  # Output directory
+  output_dir: "outputs"
+
+  # Notification settings
+  notify_on_completion: false
