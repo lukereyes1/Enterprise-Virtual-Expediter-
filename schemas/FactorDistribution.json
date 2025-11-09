@@ -1,0 +1,58 @@
+{
+  "description": "Statistical distribution of a factor score.",
+  "properties": {
+    "factor": {
+      "description": "Factor name",
+      "title": "Factor",
+      "type": "string"
+    },
+    "mean": {
+      "description": "Mean score",
+      "title": "Mean",
+      "type": "number"
+    },
+    "median": {
+      "description": "Median score",
+      "title": "Median",
+      "type": "number"
+    },
+    "std": {
+      "description": "Standard deviation",
+      "minimum": 0,
+      "title": "Std",
+      "type": "number"
+    },
+    "min": {
+      "description": "Minimum score",
+      "title": "Min",
+      "type": "number"
+    },
+    "max": {
+      "description": "Maximum score",
+      "title": "Max",
+      "type": "number"
+    },
+    "p25": {
+      "description": "25th percentile",
+      "title": "P25",
+      "type": "number"
+    },
+    "p75": {
+      "description": "75th percentile",
+      "title": "P75",
+      "type": "number"
+    }
+  },
+  "required": [
+    "factor",
+    "mean",
+    "median",
+    "std",
+    "min",
+    "max",
+    "p25",
+    "p75"
+  ],
+  "title": "FactorDistribution",
+  "type": "object"
+}

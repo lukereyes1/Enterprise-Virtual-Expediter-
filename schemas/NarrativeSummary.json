@@ -1,0 +1,61 @@
+{
+  "description": "Narrative summary of screening results.",
+  "examples": [
+    {
+      "headline": "Elevated stress in financial and consumer sectors amid high downturn risk",
+      "key_findings": [
+        "500 vulnerable candidates identified across 5000 universe",
+        "Financials represent 45% of vulnerable names",
+        "Small cap stress score at 68.3 (elevated)"
+      ],
+      "recommendations": [
+        "Monitor leveraged small caps closely",
+        "Consider hedging high-beta consumer exposure"
+      ],
+      "risk_assessment": "Market conditions show elevated vulnerability...",
+      "sector_insights": "Financial sector heavily represented due to..."
+    }
+  ],
+  "properties": {
+    "headline": {
+      "description": "One-line summary",
+      "title": "Headline",
+      "type": "string"
+    },
+    "key_findings": {
+      "description": "Bullet points of key findings",
+      "items": {
+        "type": "string"
+      },
+      "title": "Key Findings",
+      "type": "array"
+    },
+    "risk_assessment": {
+      "description": "Overall risk assessment paragraph",
+      "title": "Risk Assessment",
+      "type": "string"
+    },
+    "sector_insights": {
+      "description": "Sector-specific insights",
+      "title": "Sector Insights",
+      "type": "string"
+    },
+    "recommendations": {
+      "description": "Recommended actions",
+      "items": {
+        "type": "string"
+      },
+      "title": "Recommendations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "headline",
+    "key_findings",
+    "risk_assessment",
+    "sector_insights",
+    "recommendations"
+  ],
+  "title": "NarrativeSummary",
+  "type": "object"
+}

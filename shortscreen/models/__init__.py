@@ -28,6 +28,15 @@ from shortscreen.models.jobs import (
     JobPhaseMetrics,
     JobResult,
 )
+from shortscreen.models.reports import (
+    ReportMetadata,
+    RiskIndicators,
+    SectorDistribution,
+    ThemeDistribution,
+    FactorDistribution,
+    NarrativeSummary,
+    ScreeningReport,
+)
 
 __all__ = [
     # Core models
@@ -45,4 +54,12 @@ __all__ = [
     'JobStatus',
     'JobPhaseMetrics',
     'JobResult',
+    # Report models
+    'ReportMetadata',
+    'RiskIndicators',
+    'SectorDistribution',
+    'ThemeDistribution',
+    'FactorDistribution',
+    'NarrativeSummary',
+    'ScreeningReport',
 ]

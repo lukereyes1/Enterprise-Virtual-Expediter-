@@ -1,0 +1,613 @@
+{
+  "$defs": {
+    "FactorDistribution": {
+      "description": "Statistical distribution of a factor score.",
+      "properties": {
+        "factor": {
+          "description": "Factor name",
+          "title": "Factor",
+          "type": "string"
+        },
+        "mean": {
+          "description": "Mean score",
+          "title": "Mean",
+          "type": "number"
+        },
+        "median": {
+          "description": "Median score",
+          "title": "Median",
+          "type": "number"
+        },
+        "std": {
+          "description": "Standard deviation",
+          "minimum": 0,
+          "title": "Std",
+          "type": "number"
+        },
+        "min": {
+          "description": "Minimum score",
+          "title": "Min",
+          "type": "number"
+        },
+        "max": {
+          "description": "Maximum score",
+          "title": "Max",
+          "type": "number"
+        },
+        "p25": {
+          "description": "25th percentile",
+          "title": "P25",
+          "type": "number"
+        },
+        "p75": {
+          "description": "75th percentile",
+          "title": "P75",
+          "type": "number"
+        }
+      },
+      "required": [
+        "factor",
+        "mean",
+        "median",
+        "std",
+        "min",
+        "max",
+        "p25",
+        "p75"
+      ],
+      "title": "FactorDistribution",
+      "type": "object"
+    },
+    "MacroRegime": {
+      "description": "Macro regime indicators.\n\nEach indicator is a value between 0 and 1, where higher values\nindicate stronger conditions for that regime.",
+      "examples": [
+        {
+          "downturn": 0.8,
+          "inflation": 0.6,
+          "liquidity": 0.7
+        }
+      ],
+      "properties": {
+        "downturn": {
+          "description": "Economic downturn risk (0-1)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Downturn",
+          "type": "number"
+        },
+        "inflation": {
+          "description": "Inflation pressure (0-1)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Inflation",
+          "type": "number"
+        },
+        "liquidity": {
+          "description": "Liquidity stress (0-1)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Liquidity",
+          "type": "number"
+        }
+      },
+      "required": [
+        "downturn",
+        "inflation",
+        "liquidity"
+      ],
+      "title": "MacroRegime",
+      "type": "object"
+    },
+    "NarrativeSummary": {
+      "description": "Narrative summary of screening results.",
+      "examples": [
+        {
+          "headline": "Elevated stress in financial and consumer sectors amid high downturn risk",
+          "key_findings": [
+            "500 vulnerable candidates identified across 5000 universe",
+            "Financials represent 45% of vulnerable names",
+            "Small cap stress score at 68.3 (elevated)"
+          ],
+          "recommendations": [
+            "Monitor leveraged small caps closely",
+            "Consider hedging high-beta consumer exposure"
+          ],
+          "risk_assessment": "Market conditions show elevated vulnerability...",
+          "sector_insights": "Financial sector heavily represented due to..."
+        }
+      ],
+      "properties": {
+        "headline": {
+          "description": "One-line summary",
+          "title": "Headline",
+          "type": "string"
+        },
+        "key_findings": {
+          "description": "Bullet points of key findings",
+          "items": {
+            "type": "string"
+          },
+          "title": "Key Findings",
+          "type": "array"
+        },
+        "risk_assessment": {
+          "description": "Overall risk assessment paragraph",
+          "title": "Risk Assessment",
+          "type": "string"
+        },
+        "sector_insights": {
+          "description": "Sector-specific insights",
+          "title": "Sector Insights",
+          "type": "string"
+        },
+        "recommendations": {
+          "description": "Recommended actions",
+          "items": {
+            "type": "string"
+          },
+          "title": "Recommendations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "headline",
+        "key_findings",
+        "risk_assessment",
+        "sector_insights",
+        "recommendations"
+      ],
+      "title": "NarrativeSummary",
+      "type": "object"
+    },
+    "ReportMetadata": {
+      "description": "Metadata for a screening report.",
+      "examples": [
+        {
+          "candidates_count": 500,
+          "execution_time_seconds": 12.5,
+          "regime": {
+            "downturn": 0.8,
+            "inflation": 0.6,
+            "liquidity": 0.7
+          },
+          "report_id": "report_20250109_093000",
+          "timestamp": "2025-01-09T09:30:00Z",
+          "universe_size": 5000
+        }
+      ],
+      "properties": {
+        "report_id": {
+          "description": "Unique report identifier",
+          "title": "Report Id",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "Report generation timestamp",
+          "format": "date-time",
+          "title": "Timestamp",
+          "type": "string"
+        },
+        "regime": {
+          "$ref": "#/$defs/MacroRegime",
+          "description": "Macro regime used for screening"
+        },
+        "universe_size": {
+          "description": "Total universe size",
+          "minimum": 0,
+          "title": "Universe Size",
+          "type": "integer"
+        },
+        "candidates_count": {
+          "description": "Number of candidates generated",
+          "minimum": 0,
+          "title": "Candidates Count",
+          "type": "integer"
+        },
+        "execution_time_seconds": {
+          "description": "Execution time in seconds",
+          "minimum": 0,
+          "title": "Execution Time Seconds",
+          "type": "number"
+        }
+      },
+      "required": [
+        "report_id",
+        "timestamp",
+        "regime",
+        "universe_size",
+        "candidates_count",
+        "execution_time_seconds"
+      ],
+      "title": "ReportMetadata",
+      "type": "object"
+    },
+    "RiskIndicators": {
+      "description": "Risk indicator scores.",
+      "examples": [
+        {
+          "leverage_stress_score": 81.2,
+          "risk_off_score": 72.5,
+          "small_cap_stress_score": 68.3,
+          "valuation_extremes_score": 65.7
+        }
+      ],
+      "properties": {
+        "risk_off_score": {
+          "description": "Overall market risk-off sentiment (0-100)",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Risk Off Score",
+          "type": "number"
+        },
+        "small_cap_stress_score": {
+          "description": "Small cap stress level (0-100)",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Small Cap Stress Score",
+          "type": "number"
+        },
+        "leverage_stress_score": {
+          "description": "Leverage stress across universe (0-100)",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Leverage Stress Score",
+          "type": "number"
+        },
+        "valuation_extremes_score": {
+          "description": "Valuation extremes indicator (0-100)",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Valuation Extremes Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "risk_off_score",
+        "small_cap_stress_score",
+        "leverage_stress_score",
+        "valuation_extremes_score"
+      ],
+      "title": "RiskIndicators",
+      "type": "object"
+    },
+    "SectorDistribution": {
+      "description": "Distribution of candidates by sector.",
+      "properties": {
+        "sector": {
+          "description": "Sector name",
+          "title": "Sector",
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of candidates in sector",
+          "minimum": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "percentage": {
+          "description": "Percentage of total",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Percentage",
+          "type": "number"
+        },
+        "avg_score": {
+          "description": "Average vulnerability score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Avg Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "sector",
+        "count",
+        "percentage",
+        "avg_score"
+      ],
+      "title": "SectorDistribution",
+      "type": "object"
+    },
+    "ShortCandidate": {
+      "description": "A short candidate with all relevant scores and metadata.",
+      "examples": [
+        {
+          "beta": 2.01,
+          "debt_to_equity": 0.87,
+          "dominant_theme": "Unprofitable Growth",
+          "dominant_theme_score": 82.1,
+          "global_vulnerability_score": 78.4,
+          "growth_score": 45.6,
+          "leverage_score": 67.8,
+          "market_cap": 800000.0,
+          "market_score": 88.9,
+          "net_margin": 0.03,
+          "profitability_score": 72.4,
+          "quality_score": 63.1,
+          "revenue_growth": 0.51,
+          "sector": "Consumer Discretionary",
+          "theme_scores": {
+            "High Beta Consumer": 75.8,
+            "Over-Leveraged Small Caps": 65.3,
+            "Unprofitable Growth": 82.1,
+            "Weak Financials": 68.9
+          },
+          "ticker": "TSLA",
+          "valuation_score": 85.3
+        }
+      ],
+      "properties": {
+        "ticker": {
+          "description": "Stock ticker symbol",
+          "title": "Ticker",
+          "type": "string"
+        },
+        "global_vulnerability_score": {
+          "description": "Overall vulnerability score (0-100)",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Global Vulnerability Score",
+          "type": "number"
+        },
+        "dominant_theme": {
+          "description": "Theme with highest score",
+          "title": "Dominant Theme",
+          "type": "string"
+        },
+        "dominant_theme_score": {
+          "description": "Score for dominant theme",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Dominant Theme Score",
+          "type": "number"
+        },
+        "theme_scores": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "description": "Scores for all themes",
+          "title": "Theme Scores",
+          "type": "object"
+        },
+        "valuation_score": {
+          "description": "Valuation factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Valuation Score",
+          "type": "number"
+        },
+        "profitability_score": {
+          "description": "Profitability factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Profitability Score",
+          "type": "number"
+        },
+        "growth_score": {
+          "description": "Growth factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Growth Score",
+          "type": "number"
+        },
+        "leverage_score": {
+          "description": "Leverage factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Leverage Score",
+          "type": "number"
+        },
+        "quality_score": {
+          "description": "Quality factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Quality Score",
+          "type": "number"
+        },
+        "market_score": {
+          "description": "Market factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Market Score",
+          "type": "number"
+        },
+        "market_cap": {
+          "description": "Market cap in millions",
+          "title": "Market Cap",
+          "type": "number"
+        },
+        "sector": {
+          "description": "Sector classification",
+          "title": "Sector",
+          "type": "string"
+        },
+        "revenue_growth": {
+          "description": "Revenue growth rate",
+          "title": "Revenue Growth",
+          "type": "number"
+        },
+        "net_margin": {
+          "description": "Net profit margin",
+          "title": "Net Margin",
+          "type": "number"
+        },
+        "debt_to_equity": {
+          "description": "Debt-to-Equity ratio",
+          "title": "Debt To Equity",
+          "type": "number"
+        },
+        "beta": {
+          "description": "Market beta",
+          "title": "Beta",
+          "type": "number"
+        }
+      },
+      "required": [
+        "ticker",
+        "global_vulnerability_score",
+        "dominant_theme",
+        "dominant_theme_score",
+        "theme_scores",
+        "valuation_score",
+        "profitability_score",
+        "growth_score",
+        "leverage_score",
+        "quality_score",
+        "market_score",
+        "market_cap",
+        "sector",
+        "revenue_growth",
+        "net_margin",
+        "debt_to_equity",
+        "beta"
+      ],
+      "title": "ShortCandidate",
+      "type": "object"
+    },
+    "ThemeDistribution": {
+      "description": "Distribution of candidates by dominant theme.",
+      "properties": {
+        "theme": {
+          "description": "Theme name",
+          "title": "Theme",
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of candidates with this dominant theme",
+          "minimum": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "percentage": {
+          "description": "Percentage of total",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Percentage",
+          "type": "number"
+        },
+        "avg_score": {
+          "description": "Average theme score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Avg Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "theme",
+        "count",
+        "percentage",
+        "avg_score"
+      ],
+      "title": "ThemeDistribution",
+      "type": "object"
+    }
+  },
+  "description": "Complete screening report with all components.",
+  "examples": [
+    {
+      "factor_distributions": [],
+      "metadata": {
+        "candidates_count": 500,
+        "execution_time_seconds": 12.5,
+        "regime": {
+          "downturn": 0.8,
+          "inflation": 0.6,
+          "liquidity": 0.7
+        },
+        "report_id": "report_20250109_093000",
+        "timestamp": "2025-01-09T09:30:00Z",
+        "universe_size": 5000
+      },
+      "risk_indicators": {
+        "leverage_stress_score": 81.2,
+        "risk_off_score": 72.5,
+        "small_cap_stress_score": 68.3,
+        "valuation_extremes_score": 65.7
+      },
+      "sector_distribution": [],
+      "theme_distribution": [],
+      "top_candidates": []
+    }
+  ],
+  "properties": {
+    "metadata": {
+      "$ref": "#/$defs/ReportMetadata",
+      "description": "Report metadata"
+    },
+    "risk_indicators": {
+      "$ref": "#/$defs/RiskIndicators",
+      "description": "Risk indicator scores"
+    },
+    "top_candidates": {
+      "description": "Top N candidates",
+      "items": {
+        "$ref": "#/$defs/ShortCandidate"
+      },
+      "title": "Top Candidates",
+      "type": "array"
+    },
+    "sector_distribution": {
+      "description": "Candidate distribution by sector",
+      "items": {
+        "$ref": "#/$defs/SectorDistribution"
+      },
+      "title": "Sector Distribution",
+      "type": "array"
+    },
+    "theme_distribution": {
+      "description": "Candidate distribution by dominant theme",
+      "items": {
+        "$ref": "#/$defs/ThemeDistribution"
+      },
+      "title": "Theme Distribution",
+      "type": "array"
+    },
+    "factor_distributions": {
+      "description": "Statistical distributions of factor scores",
+      "items": {
+        "$ref": "#/$defs/FactorDistribution"
+      },
+      "title": "Factor Distributions",
+      "type": "array"
+    },
+    "narrative": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NarrativeSummary"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Narrative summary (optional)"
+    },
+    "all_candidates": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/ShortCandidate"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "All candidates (optional, for full data export)",
+      "title": "All Candidates"
+    }
+  },
+  "required": [
+    "metadata",
+    "risk_indicators",
+    "top_candidates",
+    "sector_distribution",
+    "theme_distribution",
+    "factor_distributions"
+  ],
+  "title": "ScreeningReport",
+  "type": "object"
+}

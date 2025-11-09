@@ -5,6 +5,28 @@
 
 
 /**
+ * Statistical distribution of a factor score.
+ */
+export interface FactorDistribution {
+  /** Factor name */
+  factor: string;
+  /** Mean score */
+  mean: number;
+  /** Median score */
+  median: number;
+  /** Standard deviation */
+  std: number;
+  /** Minimum score */
+  min: number;
+  /** Maximum score */
+  max: number;
+  /** 25th percentile */
+  p25: number;
+  /** 75th percentile */
+  p75: number;
+}
+
+/**
  * Metrics for a single phase of job execution.
  */
 export interface JobPhaseMetrics {
@@ -29,6 +51,83 @@ export type JobStatus = "success" | "partial" | "failed" | "running" | "pending"
  * Types of jobs in the screening service.
  */
 export type JobType = "full_refresh_daily" | "incremental_intraday" | "on_demand_scan";
+
+/**
+ * Macro regime indicators.
+
+Each indicator is a value between 0 and 1, where higher values
+indicate stronger conditions for that regime.
+ */
+export interface MacroRegime {
+  /** Economic downturn risk (0-1) */
+  downturn: number;
+  /** Inflation pressure (0-1) */
+  inflation: number;
+  /** Liquidity stress (0-1) */
+  liquidity: number;
+}
+
+/**
+ * Narrative summary of screening results.
+ */
+export interface NarrativeSummary {
+  /** One-line summary */
+  headline: string;
+  /** Bullet points of key findings */
+  key_findings: Array<string>;
+  /** Overall risk assessment paragraph */
+  risk_assessment: string;
+  /** Sector-specific insights */
+  sector_insights: string;
+  /** Recommended actions */
+  recommendations: Array<string>;
+}
+
+/**
+ * Metadata for a screening report.
+ */
+export interface ReportMetadata {
+  /** Unique report identifier */
+  report_id: string;
+  /** Report generation timestamp */
+  timestamp: string;
+  /** Macro regime used for screening */
+  regime: MacroRegime;
+  /** Total universe size */
+  universe_size: number;
+  /** Number of candidates generated */
+  candidates_count: number;
+  /** Execution time in seconds */
+  execution_time_seconds: number;
+}
+
+/**
+ * Risk indicator scores.
+ */
+export interface RiskIndicators {
+  /** Overall market risk-off sentiment (0-100) */
+  risk_off_score: number;
+  /** Small cap stress level (0-100) */
+  small_cap_stress_score: number;
+  /** Leverage stress across universe (0-100) */
+  leverage_stress_score: number;
+  /** Valuation extremes indicator (0-100) */
+  valuation_extremes_score: number;
+}
+
+/**
+ * Distribution of candidates by sector.
+ */
+export interface SectorDistribution {
+  /** Sector name */
+  sector: string;
+  /** Number of candidates in sector */
+  count: number;
+  /** Percentage of total */
+  percentage: number;
+  /** Average vulnerability score */
+  avg_score: number;
+}
 
 /**
  * A short candidate with all relevant scores and metadata.
@@ -68,6 +167,20 @@ export interface ShortCandidate {
   debt_to_equity: number;
   /** Market beta */
   beta: number;
+}
+
+/**
+ * Distribution of candidates by dominant theme.
+ */
+export interface ThemeDistribution {
+  /** Theme name */
+  theme: string;
+  /** Number of candidates with this dominant theme */
+  count: number;
+  /** Percentage of total */
+  percentage: number;
+  /** Average theme score */
+  avg_score: number;
 }
 
 /**
@@ -164,21 +277,6 @@ export interface JobResult {
 }
 
 /**
- * Macro regime indicators.
-
-Each indicator is a value between 0 and 1, where higher values
-indicate stronger conditions for that regime.
- */
-export interface MacroRegime {
-  /** Economic downturn risk (0-1) */
-  downturn: number;
-  /** Inflation pressure (0-1) */
-  inflation: number;
-  /** Liquidity stress (0-1) */
-  liquidity: number;
-}
-
-/**
  * Market data for a ticker.
  */
 export interface MarketData {
@@ -241,6 +339,28 @@ export interface RawMetrics {
   sector: string;
   /** Industry classification */
   industry: string;
+}
+
+/**
+ * Complete screening report with all components.
+ */
+export interface ScreeningReport {
+  /** Report metadata */
+  metadata: ReportMetadata;
+  /** Risk indicator scores */
+  risk_indicators: RiskIndicators;
+  /** Top N candidates */
+  top_candidates: Array<ShortCandidate>;
+  /** Candidate distribution by sector */
+  sector_distribution: Array<SectorDistribution>;
+  /** Candidate distribution by dominant theme */
+  theme_distribution: Array<ThemeDistribution>;
+  /** Statistical distributions of factor scores */
+  factor_distributions: Array<FactorDistribution>;
+  /** Narrative summary (optional) */
+  narrative?: NarrativeSummary | null;
+  /** All candidates (optional, for full data export) */
+  all_candidates?: Array<ShortCandidate> | null;
 }
 
 /**

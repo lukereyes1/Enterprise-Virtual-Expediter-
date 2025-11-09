@@ -1,0 +1,38 @@
+{
+  "description": "Distribution of candidates by sector.",
+  "properties": {
+    "sector": {
+      "description": "Sector name",
+      "title": "Sector",
+      "type": "string"
+    },
+    "count": {
+      "description": "Number of candidates in sector",
+      "minimum": 0,
+      "title": "Count",
+      "type": "integer"
+    },
+    "percentage": {
+      "description": "Percentage of total",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Percentage",
+      "type": "number"
+    },
+    "avg_score": {
+      "description": "Average vulnerability score",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Avg Score",
+      "type": "number"
+    }
+  },
+  "required": [
+    "sector",
+    "count",
+    "percentage",
+    "avg_score"
+  ],
+  "title": "SectorDistribution",
+  "type": "object"
+}

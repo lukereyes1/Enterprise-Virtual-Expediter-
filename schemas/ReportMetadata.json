@@ -1,0 +1,104 @@
+{
+  "$defs": {
+    "MacroRegime": {
+      "description": "Macro regime indicators.\n\nEach indicator is a value between 0 and 1, where higher values\nindicate stronger conditions for that regime.",
+      "examples": [
+        {
+          "downturn": 0.8,
+          "inflation": 0.6,
+          "liquidity": 0.7
+        }
+      ],
+      "properties": {
+        "downturn": {
+          "description": "Economic downturn risk (0-1)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Downturn",
+          "type": "number"
+        },
+        "inflation": {
+          "description": "Inflation pressure (0-1)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Inflation",
+          "type": "number"
+        },
+        "liquidity": {
+          "description": "Liquidity stress (0-1)",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Liquidity",
+          "type": "number"
+        }
+      },
+      "required": [
+        "downturn",
+        "inflation",
+        "liquidity"
+      ],
+      "title": "MacroRegime",
+      "type": "object"
+    }
+  },
+  "description": "Metadata for a screening report.",
+  "examples": [
+    {
+      "candidates_count": 500,
+      "execution_time_seconds": 12.5,
+      "regime": {
+        "downturn": 0.8,
+        "inflation": 0.6,
+        "liquidity": 0.7
+      },
+      "report_id": "report_20250109_093000",
+      "timestamp": "2025-01-09T09:30:00Z",
+      "universe_size": 5000
+    }
+  ],
+  "properties": {
+    "report_id": {
+      "description": "Unique report identifier",
+      "title": "Report Id",
+      "type": "string"
+    },
+    "timestamp": {
+      "description": "Report generation timestamp",
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "regime": {
+      "$ref": "#/$defs/MacroRegime",
+      "description": "Macro regime used for screening"
+    },
+    "universe_size": {
+      "description": "Total universe size",
+      "minimum": 0,
+      "title": "Universe Size",
+      "type": "integer"
+    },
+    "candidates_count": {
+      "description": "Number of candidates generated",
+      "minimum": 0,
+      "title": "Candidates Count",
+      "type": "integer"
+    },
+    "execution_time_seconds": {
+      "description": "Execution time in seconds",
+      "minimum": 0,
+      "title": "Execution Time Seconds",
+      "type": "number"
+    }
+  },
+  "required": [
+    "report_id",
+    "timestamp",
+    "regime",
+    "universe_size",
+    "candidates_count",
+    "execution_time_seconds"
+  ],
+  "title": "ReportMetadata",
+  "type": "object"
+}

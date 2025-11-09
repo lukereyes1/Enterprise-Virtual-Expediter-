@@ -1,0 +1,38 @@
+{
+  "description": "Distribution of candidates by dominant theme.",
+  "properties": {
+    "theme": {
+      "description": "Theme name",
+      "title": "Theme",
+      "type": "string"
+    },
+    "count": {
+      "description": "Number of candidates with this dominant theme",
+      "minimum": 0,
+      "title": "Count",
+      "type": "integer"
+    },
+    "percentage": {
+      "description": "Percentage of total",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Percentage",
+      "type": "number"
+    },
+    "avg_score": {
+      "description": "Average theme score",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Avg Score",
+      "type": "number"
+    }
+  },
+  "required": [
+    "theme",
+    "count",
+    "percentage",
+    "avg_score"
+  ],
+  "title": "ThemeDistribution",
+  "type": "object"
+}

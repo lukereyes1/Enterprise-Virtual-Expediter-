@@ -1,0 +1,49 @@
+{
+  "description": "Risk indicator scores.",
+  "examples": [
+    {
+      "leverage_stress_score": 81.2,
+      "risk_off_score": 72.5,
+      "small_cap_stress_score": 68.3,
+      "valuation_extremes_score": 65.7
+    }
+  ],
+  "properties": {
+    "risk_off_score": {
+      "description": "Overall market risk-off sentiment (0-100)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Risk Off Score",
+      "type": "number"
+    },
+    "small_cap_stress_score": {
+      "description": "Small cap stress level (0-100)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Small Cap Stress Score",
+      "type": "number"
+    },
+    "leverage_stress_score": {
+      "description": "Leverage stress across universe (0-100)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Leverage Stress Score",
+      "type": "number"
+    },
+    "valuation_extremes_score": {
+      "description": "Valuation extremes indicator (0-100)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Valuation Extremes Score",
+      "type": "number"
+    }
+  },
+  "required": [
+    "risk_off_score",
+    "small_cap_stress_score",
+    "leverage_stress_score",
+    "valuation_extremes_score"
+  ],
+  "title": "RiskIndicators",
+  "type": "object"
+}

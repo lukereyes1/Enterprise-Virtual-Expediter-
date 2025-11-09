@@ -27,6 +27,13 @@ from shortscreen.models import (
     JobStatus,
     JobPhaseMetrics,
     JobResult,
+    ReportMetadata,
+    RiskIndicators,
+    SectorDistribution,
+    ThemeDistribution,
+    FactorDistribution,
+    NarrativeSummary,
+    ScreeningReport,
 )
 
 
@@ -67,6 +74,13 @@ def main():
         ShortCandidate,
         JobPhaseMetrics,
         JobResult,
+        ReportMetadata,
+        RiskIndicators,
+        SectorDistribution,
+        ThemeDistribution,
+        FactorDistribution,
+        NarrativeSummary,
+        ScreeningReport,
     ]
 
     for model in models:
