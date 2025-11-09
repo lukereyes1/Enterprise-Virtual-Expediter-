@@ -1,0 +1,398 @@
+{
+  "$defs": {
+    "JobPhaseMetrics": {
+      "description": "Metrics for a single phase of job execution.",
+      "examples": [
+        {
+          "duration_seconds": 12.5,
+          "error": null,
+          "phase_name": "fetch_market_data",
+          "records_processed": 5000,
+          "success": true
+        }
+      ],
+      "properties": {
+        "phase_name": {
+          "description": "Name of the execution phase",
+          "title": "Phase Name",
+          "type": "string"
+        },
+        "duration_seconds": {
+          "description": "Duration of the phase in seconds",
+          "minimum": 0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "records_processed": {
+          "description": "Number of records processed",
+          "minimum": 0,
+          "title": "Records Processed",
+          "type": "integer"
+        },
+        "success": {
+          "description": "Whether the phase succeeded",
+          "title": "Success",
+          "type": "boolean"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Error message if phase failed",
+          "title": "Error"
+        }
+      },
+      "required": [
+        "phase_name",
+        "duration_seconds",
+        "records_processed",
+        "success"
+      ],
+      "title": "JobPhaseMetrics",
+      "type": "object"
+    },
+    "JobStatus": {
+      "description": "Status of a job execution.",
+      "enum": [
+        "success",
+        "partial",
+        "failed",
+        "running",
+        "pending"
+      ],
+      "title": "JobStatus",
+      "type": "string"
+    },
+    "JobType": {
+      "description": "Types of jobs in the screening service.",
+      "enum": [
+        "full_refresh_daily",
+        "incremental_intraday",
+        "on_demand_scan"
+      ],
+      "title": "JobType",
+      "type": "string"
+    },
+    "ShortCandidate": {
+      "description": "A short candidate with all relevant scores and metadata.",
+      "examples": [
+        {
+          "beta": 2.01,
+          "debt_to_equity": 0.87,
+          "dominant_theme": "Unprofitable Growth",
+          "dominant_theme_score": 82.1,
+          "global_vulnerability_score": 78.4,
+          "growth_score": 45.6,
+          "leverage_score": 67.8,
+          "market_cap": 800000.0,
+          "market_score": 88.9,
+          "net_margin": 0.03,
+          "profitability_score": 72.4,
+          "quality_score": 63.1,
+          "revenue_growth": 0.51,
+          "sector": "Consumer Discretionary",
+          "theme_scores": {
+            "High Beta Consumer": 75.8,
+            "Over-Leveraged Small Caps": 65.3,
+            "Unprofitable Growth": 82.1,
+            "Weak Financials": 68.9
+          },
+          "ticker": "TSLA",
+          "valuation_score": 85.3
+        }
+      ],
+      "properties": {
+        "ticker": {
+          "description": "Stock ticker symbol",
+          "title": "Ticker",
+          "type": "string"
+        },
+        "global_vulnerability_score": {
+          "description": "Overall vulnerability score (0-100)",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Global Vulnerability Score",
+          "type": "number"
+        },
+        "dominant_theme": {
+          "description": "Theme with highest score",
+          "title": "Dominant Theme",
+          "type": "string"
+        },
+        "dominant_theme_score": {
+          "description": "Score for dominant theme",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Dominant Theme Score",
+          "type": "number"
+        },
+        "theme_scores": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "description": "Scores for all themes",
+          "title": "Theme Scores",
+          "type": "object"
+        },
+        "valuation_score": {
+          "description": "Valuation factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Valuation Score",
+          "type": "number"
+        },
+        "profitability_score": {
+          "description": "Profitability factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Profitability Score",
+          "type": "number"
+        },
+        "growth_score": {
+          "description": "Growth factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Growth Score",
+          "type": "number"
+        },
+        "leverage_score": {
+          "description": "Leverage factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Leverage Score",
+          "type": "number"
+        },
+        "quality_score": {
+          "description": "Quality factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Quality Score",
+          "type": "number"
+        },
+        "market_score": {
+          "description": "Market factor score",
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Market Score",
+          "type": "number"
+        },
+        "market_cap": {
+          "description": "Market cap in millions",
+          "title": "Market Cap",
+          "type": "number"
+        },
+        "sector": {
+          "description": "Sector classification",
+          "title": "Sector",
+          "type": "string"
+        },
+        "revenue_growth": {
+          "description": "Revenue growth rate",
+          "title": "Revenue Growth",
+          "type": "number"
+        },
+        "net_margin": {
+          "description": "Net profit margin",
+          "title": "Net Margin",
+          "type": "number"
+        },
+        "debt_to_equity": {
+          "description": "Debt-to-Equity ratio",
+          "title": "Debt To Equity",
+          "type": "number"
+        },
+        "beta": {
+          "description": "Market beta",
+          "title": "Beta",
+          "type": "number"
+        }
+      },
+      "required": [
+        "ticker",
+        "global_vulnerability_score",
+        "dominant_theme",
+        "dominant_theme_score",
+        "theme_scores",
+        "valuation_score",
+        "profitability_score",
+        "growth_score",
+        "leverage_score",
+        "quality_score",
+        "market_score",
+        "market_cap",
+        "sector",
+        "revenue_growth",
+        "net_margin",
+        "debt_to_equity",
+        "beta"
+      ],
+      "title": "ShortCandidate",
+      "type": "object"
+    }
+  },
+  "description": "Result of a job execution.",
+  "examples": [
+    {
+      "candidates_generated": 500,
+      "degraded_mode": false,
+      "degraded_reasons": [],
+      "end_time": "2025-01-09T09:35:23Z",
+      "errors": [],
+      "fundamentals_date": "2025-01-09T08:00:00Z",
+      "job_id": "job_20250109_093000",
+      "job_type": "full_refresh_daily",
+      "market_data_date": "2025-01-09T09:29:00Z",
+      "phase_metrics": [],
+      "start_time": "2025-01-09T09:30:00Z",
+      "status": "success",
+      "top_candidates": [],
+      "total_duration_seconds": 323.5,
+      "universe_size": 5000,
+      "warnings": []
+    }
+  ],
+  "properties": {
+    "job_id": {
+      "description": "Unique job identifier",
+      "title": "Job Id",
+      "type": "string"
+    },
+    "job_type": {
+      "$ref": "#/$defs/JobType",
+      "description": "Type of job"
+    },
+    "status": {
+      "$ref": "#/$defs/JobStatus",
+      "description": "Job execution status"
+    },
+    "start_time": {
+      "description": "Job start timestamp",
+      "format": "date-time",
+      "title": "Start Time",
+      "type": "string"
+    },
+    "end_time": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Job end timestamp",
+      "title": "End Time"
+    },
+    "fundamentals_date": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Timestamp of fundamental data",
+      "title": "Fundamentals Date"
+    },
+    "market_data_date": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Timestamp of market data",
+      "title": "Market Data Date"
+    },
+    "universe_size": {
+      "default": 0,
+      "description": "Total universe size",
+      "minimum": 0,
+      "title": "Universe Size",
+      "type": "integer"
+    },
+    "candidates_generated": {
+      "default": 0,
+      "description": "Number of candidates generated",
+      "minimum": 0,
+      "title": "Candidates Generated",
+      "type": "integer"
+    },
+    "total_duration_seconds": {
+      "default": 0.0,
+      "description": "Total job duration",
+      "minimum": 0,
+      "title": "Total Duration Seconds",
+      "type": "number"
+    },
+    "phase_metrics": {
+      "description": "Metrics for each execution phase",
+      "items": {
+        "$ref": "#/$defs/JobPhaseMetrics"
+      },
+      "title": "Phase Metrics",
+      "type": "array"
+    },
+    "degraded_mode": {
+      "default": false,
+      "description": "Whether job ran in degraded mode",
+      "title": "Degraded Mode",
+      "type": "boolean"
+    },
+    "degraded_reasons": {
+      "description": "Reasons for degraded mode",
+      "items": {
+        "type": "string"
+      },
+      "title": "Degraded Reasons",
+      "type": "array"
+    },
+    "top_candidates": {
+      "description": "Top short candidates from screening",
+      "items": {
+        "$ref": "#/$defs/ShortCandidate"
+      },
+      "title": "Top Candidates",
+      "type": "array"
+    },
+    "errors": {
+      "description": "Error messages",
+      "items": {
+        "type": "string"
+      },
+      "title": "Errors",
+      "type": "array"
+    },
+    "warnings": {
+      "description": "Warning messages",
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "job_id",
+    "job_type",
+    "status",
+    "start_time"
+  ],
+  "title": "JobResult",
+  "type": "object"
+}

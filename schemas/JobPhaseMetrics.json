@@ -1,0 +1,57 @@
+{
+  "description": "Metrics for a single phase of job execution.",
+  "examples": [
+    {
+      "duration_seconds": 12.5,
+      "error": null,
+      "phase_name": "fetch_market_data",
+      "records_processed": 5000,
+      "success": true
+    }
+  ],
+  "properties": {
+    "phase_name": {
+      "description": "Name of the execution phase",
+      "title": "Phase Name",
+      "type": "string"
+    },
+    "duration_seconds": {
+      "description": "Duration of the phase in seconds",
+      "minimum": 0,
+      "title": "Duration Seconds",
+      "type": "number"
+    },
+    "records_processed": {
+      "description": "Number of records processed",
+      "minimum": 0,
+      "title": "Records Processed",
+      "type": "integer"
+    },
+    "success": {
+      "description": "Whether the phase succeeded",
+      "title": "Success",
+      "type": "boolean"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Error message if phase failed",
+      "title": "Error"
+    }
+  },
+  "required": [
+    "phase_name",
+    "duration_seconds",
+    "records_processed",
+    "success"
+  ],
+  "title": "JobPhaseMetrics",
+  "type": "object"
+}

@@ -1,0 +1,40 @@
+{
+  "description": "Macro regime indicators.\n\nEach indicator is a value between 0 and 1, where higher values\nindicate stronger conditions for that regime.",
+  "examples": [
+    {
+      "downturn": 0.8,
+      "inflation": 0.6,
+      "liquidity": 0.7
+    }
+  ],
+  "properties": {
+    "downturn": {
+      "description": "Economic downturn risk (0-1)",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Downturn",
+      "type": "number"
+    },
+    "inflation": {
+      "description": "Inflation pressure (0-1)",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Inflation",
+      "type": "number"
+    },
+    "liquidity": {
+      "description": "Liquidity stress (0-1)",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Liquidity",
+      "type": "number"
+    }
+  },
+  "required": [
+    "downturn",
+    "inflation",
+    "liquidity"
+  ],
+  "title": "MacroRegime",
+  "type": "object"
+}

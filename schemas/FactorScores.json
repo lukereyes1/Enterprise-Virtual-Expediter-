@@ -1,0 +1,74 @@
+{
+  "description": "Percentile-based factor scores for a ticker.\n\nEach score is a percentile rank (0-100) where higher values indicate\nmore bearish characteristics for that factor.",
+  "examples": [
+    {
+      "growth_score": 45.6,
+      "leverage_score": 67.8,
+      "market_score": 78.9,
+      "profitability_score": 12.4,
+      "quality_score": 23.1,
+      "ticker": "AAPL",
+      "valuation_score": 85.3
+    }
+  ],
+  "properties": {
+    "ticker": {
+      "description": "Stock ticker symbol",
+      "title": "Ticker",
+      "type": "string"
+    },
+    "valuation_score": {
+      "description": "Valuation score (higher = more expensive = more bearish)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Valuation Score",
+      "type": "number"
+    },
+    "profitability_score": {
+      "description": "Profitability score (higher = less profitable = more bearish)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Profitability Score",
+      "type": "number"
+    },
+    "growth_score": {
+      "description": "Growth score (higher = negative/slowing growth = more bearish)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Growth Score",
+      "type": "number"
+    },
+    "leverage_score": {
+      "description": "Leverage score (higher = more levered = more bearish)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Leverage Score",
+      "type": "number"
+    },
+    "quality_score": {
+      "description": "Quality score (higher = lower quality = more bearish)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Quality Score",
+      "type": "number"
+    },
+    "market_score": {
+      "description": "Market score (higher = higher beta/momentum issues = more bearish)",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Market Score",
+      "type": "number"
+    }
+  },
+  "required": [
+    "ticker",
+    "valuation_score",
+    "profitability_score",
+    "growth_score",
+    "leverage_score",
+    "quality_score",
+    "market_score"
+  ],
+  "title": "FactorScores",
+  "type": "object"
+}

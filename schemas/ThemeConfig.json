@@ -1,0 +1,25 @@
+{
+  "description": "Configuration for a single theme.",
+  "properties": {
+    "base_weight": {
+      "description": "Baseline weight for the theme",
+      "exclusiveMinimum": 0.0,
+      "title": "Base Weight",
+      "type": "number"
+    },
+    "sensitivities": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "description": "Sensitivities to macro factors (downturn, inflation, liquidity)",
+      "title": "Sensitivities",
+      "type": "object"
+    }
+  },
+  "required": [
+    "base_weight",
+    "sensitivities"
+  ],
+  "title": "ThemeConfig",
+  "type": "object"
+}

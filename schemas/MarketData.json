@@ -1,0 +1,67 @@
+{
+  "description": "Market data for a ticker.",
+  "examples": [
+    {
+      "beta": 1.24,
+      "market_cap": 2800000.0,
+      "price": 175.43,
+      "price_52w_high": 199.62,
+      "price_52w_low": 124.17,
+      "ticker": "AAPL",
+      "volume_20d_avg": 52000000.0
+    }
+  ],
+  "properties": {
+    "ticker": {
+      "description": "Stock ticker symbol",
+      "title": "Ticker",
+      "type": "string"
+    },
+    "price": {
+      "description": "Current stock price",
+      "exclusiveMinimum": 0,
+      "title": "Price",
+      "type": "number"
+    },
+    "market_cap": {
+      "description": "Market capitalization in millions",
+      "exclusiveMinimum": 0,
+      "title": "Market Cap",
+      "type": "number"
+    },
+    "beta": {
+      "description": "Market beta",
+      "title": "Beta",
+      "type": "number"
+    },
+    "volume_20d_avg": {
+      "description": "20-day average volume",
+      "exclusiveMinimum": 0,
+      "title": "Volume 20D Avg",
+      "type": "number"
+    },
+    "price_52w_high": {
+      "description": "52-week high price",
+      "exclusiveMinimum": 0,
+      "title": "Price 52W High",
+      "type": "number"
+    },
+    "price_52w_low": {
+      "description": "52-week low price",
+      "exclusiveMinimum": 0,
+      "title": "Price 52W Low",
+      "type": "number"
+    }
+  },
+  "required": [
+    "ticker",
+    "price",
+    "market_cap",
+    "beta",
+    "volume_20d_avg",
+    "price_52w_high",
+    "price_52w_low"
+  ],
+  "title": "MarketData",
+  "type": "object"
+}

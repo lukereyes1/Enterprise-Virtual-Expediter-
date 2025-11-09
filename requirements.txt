@@ -1,5 +1,6 @@
 # Core dependencies
 pyyaml>=6.0
+pydantic>=2.5.0
 
 # Development dependencies
 pytest>=7.0

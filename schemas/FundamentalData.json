@@ -1,0 +1,108 @@
+{
+  "description": "Fundamental data for a ticker.",
+  "examples": [
+    {
+      "cash": 61555.0,
+      "ebitda": 114301.0,
+      "free_cash_flow": 99584.0,
+      "industry": "Consumer Electronics",
+      "net_income": 96995.0,
+      "revenue": 383285.0,
+      "revenue_growth": 0.08,
+      "sector": "Technology",
+      "shares_outstanding": 15552.8,
+      "ticker": "AAPL",
+      "total_assets": 352755.0,
+      "total_debt": 111088.0,
+      "total_equity": 62146.0
+    }
+  ],
+  "properties": {
+    "ticker": {
+      "description": "Stock ticker symbol",
+      "title": "Ticker",
+      "type": "string"
+    },
+    "revenue": {
+      "description": "Total revenue in millions",
+      "title": "Revenue",
+      "type": "number"
+    },
+    "revenue_growth": {
+      "description": "Year-over-year revenue growth rate",
+      "title": "Revenue Growth",
+      "type": "number"
+    },
+    "ebitda": {
+      "description": "EBITDA in millions",
+      "title": "Ebitda",
+      "type": "number"
+    },
+    "net_income": {
+      "description": "Net income in millions",
+      "title": "Net Income",
+      "type": "number"
+    },
+    "free_cash_flow": {
+      "description": "Free cash flow in millions",
+      "title": "Free Cash Flow",
+      "type": "number"
+    },
+    "total_debt": {
+      "description": "Total debt in millions",
+      "minimum": 0,
+      "title": "Total Debt",
+      "type": "number"
+    },
+    "cash": {
+      "description": "Cash and equivalents in millions",
+      "minimum": 0,
+      "title": "Cash",
+      "type": "number"
+    },
+    "total_assets": {
+      "description": "Total assets in millions",
+      "exclusiveMinimum": 0,
+      "title": "Total Assets",
+      "type": "number"
+    },
+    "total_equity": {
+      "description": "Total equity in millions",
+      "title": "Total Equity",
+      "type": "number"
+    },
+    "shares_outstanding": {
+      "description": "Shares outstanding in millions",
+      "exclusiveMinimum": 0,
+      "title": "Shares Outstanding",
+      "type": "number"
+    },
+    "sector": {
+      "description": "Sector classification",
+      "title": "Sector",
+      "type": "string"
+    },
+    "industry": {
+      "description": "Industry classification",
+      "title": "Industry",
+      "type": "string"
+    }
+  },
+  "required": [
+    "ticker",
+    "revenue",
+    "revenue_growth",
+    "ebitda",
+    "net_income",
+    "free_cash_flow",
+    "total_debt",
+    "cash",
+    "total_assets",
+    "total_equity",
+    "shares_outstanding",
+    "sector",
+    "industry"
+  ],
+  "title": "FundamentalData",
+  "type": "object"
+}
