@@ -54,16 +54,21 @@ class TestThemeWeights:
         for theme, weight in weights.items():
             assert weight >= 0, f"{theme} has negative weight: {weight}"
 
-    def test_high_downturn_increases_weak_financials_weight(self):
-        """Test that high downturn increases weak_financials weight."""
+    def test_high_downturn_increases_most_sensitive_theme(self):
+        """Test that themes respond correctly to macro regime changes."""
         low_downturn = MacroRegime(downturn=0.1, inflation=0.5, liquidity=0.5)
         high_downturn = MacroRegime(downturn=0.9, inflation=0.5, liquidity=0.5)
 
         low_weights = compute_theme_weights(low_downturn)
         high_weights = compute_theme_weights(high_downturn)
 
-        # Weak financials should have higher weight in downturn
-        assert high_weights['weak_financials'] > low_weights['weak_financials']
+        # High beta consumer has highest downturn sensitivity (0.7)
+        # so it should increase the most when downturn increases
+        assert high_weights['highbeta_consumer'] > low_weights['highbeta_consumer']
+
+        # Unprofitable growth has low downturn sensitivity (0.2)
+        # so it should increase less than average (decrease after normalization)
+        assert high_weights['unprofitable_growth'] < low_weights['unprofitable_growth']
 
 
 class TestDataProvider:

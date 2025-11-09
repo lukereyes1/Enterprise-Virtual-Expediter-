@@ -1,31 +1,39 @@
 # Theme Configuration
 # Defines base weights and macro sensitivities for each theme
+#
+# Sensitivities can be positive (theme becomes MORE important) or negative
+# (theme becomes LESS important) based on macro conditions.
+#
+# Design philosophy:
+# - downturn: Most themes increase, but unprofitable growth less so
+# - inflation: Weak financials and leverage more important; growth less so
+# - liquidity: Leverage and weak financials critical; others less so
 
 themes:
   unprofitable_growth:
     base_weight: 0.25
     sensitivities:
-      downturn: 0.4
-      inflation: 0.2
-      liquidity: 0.3
+      downturn: 0.2      # Moderate increase in downturn
+      inflation: -0.3    # Less concerning with inflation (can grow revenue nominally)
+      liquidity: 0.1     # Slight increase with liquidity stress
 
   overleveraged_smallcaps:
     base_weight: 0.25
     sensitivities:
-      downturn: 0.3
-      inflation: 0.1
-      liquidity: 0.5
+      downturn: 0.4      # Significant increase in downturn
+      inflation: 0.3     # Higher rates hurt leveraged companies
+      liquidity: 0.8     # Critical in liquidity crisis
 
   highbeta_consumer:
     base_weight: 0.25
     sensitivities:
-      downturn: 0.5
-      inflation: 0.4
-      liquidity: 0.1
+      downturn: 0.7      # Very concerning in downturn
+      inflation: 0.2     # Some concern with inflation
+      liquidity: -0.1    # Less of a factor in liquidity stress
 
   weak_financials:
     base_weight: 0.25
     sensitivities:
-      downturn: 0.6
-      inflation: 0.2
-      liquidity: 0.2
+      downturn: 0.5      # Significant increase in downturn
+      inflation: 0.4     # Higher rates stress weak finances
+      liquidity: 0.6     # Very concerning in liquidity crisis

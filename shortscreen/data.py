@@ -8,9 +8,29 @@ testing and development, but is designed to be easily swapped with real API call
 
 from typing import List, Dict, Optional
 import random
+import hashlib
 
 # Import models from central location (single source of truth)
 from shortscreen.models.data import MarketData, FundamentalData
+
+
+def _deterministic_hash(s: str) -> int:
+    """
+    Generate a deterministic hash from a string.
+
+    Uses SHA-256 to avoid Python's PYTHONHASHSEED randomization which makes
+    the built-in hash() function return different values across processes.
+
+    Args:
+        s: String to hash
+
+    Returns:
+        Deterministic integer hash value
+    """
+    # Use SHA-256 for deterministic hashing
+    hash_bytes = hashlib.sha256(s.encode('utf-8')).digest()
+    # Convert first 4 bytes to integer
+    return int.from_bytes(hash_bytes[:4], byteorder='big')
 
 
 class DataProvider:
@@ -127,8 +147,8 @@ class DataProvider:
 
     def _get_mock_market_data(self, ticker: str) -> MarketData:
         """Generate mock market data for a ticker."""
-        # Use ticker hash for semi-consistent random data
-        seed = hash(ticker) % 10000
+        # Use deterministic hash for consistent random data across runs
+        seed = _deterministic_hash(ticker) % 10000
         random.seed(seed)
 
         price = random.uniform(10, 500)
@@ -148,8 +168,8 @@ class DataProvider:
 
     def _get_mock_fundamental_data(self, ticker: str) -> FundamentalData:
         """Generate mock fundamental data for a ticker."""
-        # Use ticker hash for semi-consistent random data
-        seed = hash(ticker) % 10000
+        # Use deterministic hash for consistent random data across runs
+        seed = _deterministic_hash(ticker) % 10000
         random.seed(seed)
 
         # Determine sector based on ticker prefix
