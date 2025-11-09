@@ -1,0 +1,42 @@
+# Data Provider Configuration
+# Specifies data sources and connection parameters
+
+providers:
+  # Yahoo Finance (via yfinance)
+  yfinance:
+    enabled: true
+    priority: 1  # Higher priority = preferred provider
+    batch_size: 50  # Max tickers per request
+    timeout_seconds: 30
+    retry_attempts: 3
+    retry_delay_seconds: 2
+    cache_ttl_minutes: 15
+
+  # Alpha Vantage (requires API key)
+  alphavantage:
+    enabled: false
+    priority: 2
+    api_key: null  # Set via environment variable ALPHA_VANTAGE_API_KEY
+    batch_size: 5  # Limited by API rate limits
+    timeout_seconds: 30
+    retry_attempts: 3
+    retry_delay_seconds: 5
+    cache_ttl_minutes: 60
+
+  # Mock provider (for testing)
+  mock:
+    enabled: true
+    priority: 99  # Lowest priority (fallback only)
+
+# Health check settings
+health_check:
+  enabled: true
+  interval_minutes: 5
+  test_tickers: ["AAPL", "MSFT", "GOOGL"]
+
+# Cache settings
+cache:
+  enabled: true
+  directory: ".cache/market_data"
+  max_size_mb: 500
+  cleanup_interval_hours: 24

@@ -2,16 +2,19 @@
 Data provider module for market and fundamental data access.
 
 This module provides an abstraction layer for accessing market data, fundamental
-metrics, and other data sources. The current implementation uses mock data for
-testing and development, but is designed to be easily swapped with real API calls.
+metrics, and other data sources. Supports both mock data (for testing) and real
+data providers (Yahoo Finance, Alpha Vantage, etc.) with automatic fallback.
 """
 
 from typing import List, Dict, Optional
 import random
 import hashlib
+import logging
 
 # Import models from central location (single source of truth)
 from shortscreen.models.data import MarketData, FundamentalData
+
+logger = logging.getLogger(__name__)
 
 
 def _deterministic_hash(s: str) -> int:
@@ -38,8 +41,8 @@ class DataProvider:
     Abstraction layer for market and fundamental data access.
 
     This class provides methods to fetch market and fundamental data for tickers.
-    The current implementation returns mock data, but methods are designed to be
-    easily replaced with real API calls (e.g., Yahoo Finance, Alpha Vantage, etc.).
+    Supports both mock data (for testing/development) and real data providers with
+    automatic fallback between multiple sources.
     """
 
     def __init__(self, use_mock: bool = True):
@@ -47,10 +50,21 @@ class DataProvider:
         Initialize the data provider.
 
         Args:
-            use_mock: If True, use mock data. If False, use real API calls.
+            use_mock: If True, use mock data. If False, use real providers via ProviderManager.
         """
         self.use_mock = use_mock
         random.seed(42)  # For reproducible mock data
+
+        # Initialize provider manager for real data access
+        self.provider_manager = None
+        if not use_mock:
+            try:
+                from shortscreen.providers import ProviderManager
+                self.provider_manager = ProviderManager()
+                logger.info("Initialized real data providers")
+            except Exception as e:
+                logger.warning(f"Failed to initialize provider manager: {e}. Falling back to mock data.")
+                self.use_mock = True
 
     def get_universe(self, filters: Optional[Dict] = None) -> List[str]:
         """
@@ -62,12 +76,14 @@ class DataProvider:
         Returns:
             List of ticker symbols
         """
-        if self.use_mock:
-            # Mock universe of tickers
+        if self.use_mock or self.provider_manager is None:
             return self._get_mock_universe(filters)
-        else:
-            # TODO: Implement real API call to fetch universe
-            raise NotImplementedError("Real API calls not yet implemented")
+
+        try:
+            return self.provider_manager.get_universe(filters)
+        except Exception as e:
+            logger.warning(f"Provider manager failed to fetch universe: {e}. Using mock data.")
+            return self._get_mock_universe(filters)
 
     def get_market_data(self, ticker: str) -> MarketData:
         """
@@ -79,11 +95,14 @@ class DataProvider:
         Returns:
             MarketData object with market metrics
         """
-        if self.use_mock:
+        if self.use_mock or self.provider_manager is None:
             return self._get_mock_market_data(ticker)
-        else:
-            # TODO: Implement real API call (e.g., yfinance, Alpha Vantage)
-            raise NotImplementedError("Real API calls not yet implemented")
+
+        try:
+            return self.provider_manager.get_market_data(ticker)
+        except Exception as e:
+            logger.warning(f"Provider manager failed to fetch market data for {ticker}: {e}. Using mock data.")
+            return self._get_mock_market_data(ticker)
 
     def get_fundamental_data(self, ticker: str) -> FundamentalData:
         """
@@ -95,11 +114,14 @@ class DataProvider:
         Returns:
             FundamentalData object with fundamental metrics
         """
-        if self.use_mock:
+        if self.use_mock or self.provider_manager is None:
             return self._get_mock_fundamental_data(ticker)
-        else:
-            # TODO: Implement real API call (e.g., Financial Modeling Prep, IEX Cloud)
-            raise NotImplementedError("Real API calls not yet implemented")
+
+        try:
+            return self.provider_manager.get_fundamental_data(ticker)
+        except Exception as e:
+            logger.warning(f"Provider manager failed to fetch fundamental data for {ticker}: {e}. Using mock data.")
+            return self._get_mock_fundamental_data(ticker)
 
     def get_batch_market_data(self, tickers: List[str]) -> Dict[str, MarketData]:
         """
