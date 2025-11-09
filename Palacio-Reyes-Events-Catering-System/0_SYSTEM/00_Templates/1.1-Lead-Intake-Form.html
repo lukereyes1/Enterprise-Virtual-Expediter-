@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palacio Reyes Events - Lead Intake Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            color: #2a5298;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 24px;
+            background: #667eea;
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        .required::after {
+            content: ' *';
+            color: #e74c3c;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .help-text {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .rating-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .rating-option {
+            flex: 1;
+            text-align: center;
+        }
+
+        .rating-option input[type="radio"] {
+            display: none;
+        }
+
+        .rating-option label {
+            display: block;
+            padding: 10px;
+            background: #f5f5f5;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .rating-option input[type="radio"]:checked + label {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9ff;
+        }
+
+        .success-message {
+            display: none;
+            padding: 20px;
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            border-radius: 6px;
+            color: #155724;
+            margin-bottom: 20px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .event-id-display {
+            background: #f8f9ff;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .event-id-display strong {
+            color: #2a5298;
+            font-size: 1.1em;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .button-group {
+                display: none;
+            }
+
+            input, select, textarea {
+                border: none;
+                border-bottom: 1px solid #ccc;
+                padding: 5px 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .form-content {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ Palacio Reyes Events & Catering</h1>
+            <p>Lead Intake Form - New Event Inquiry</p>
+        </div>
+
+        <div class="form-content">
+            <div class="success-message" id="successMessage">
+                ✓ Form data saved successfully! Event ID has been generated.
+            </div>
+
+            <div class="event-id-display" id="eventIdDisplay" style="display: none;">
+                <strong>Event ID:</strong> <span id="eventIdValue"></span>
+            </div>
+
+            <form id="leadIntakeForm">
+                <!-- Event Basics Section -->
+                <div class="section">
+                    <h2 class="section-title">Event Basics</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventDate" class="required">Preferred Event Date</label>
+                            <input type="date" id="eventDate" name="eventDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventTime">Preferred Start Time</label>
+                            <input type="time" id="eventTime" name="eventTime">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventDuration">Estimated Duration (hours)</label>
+                            <input type="number" id="eventDuration" name="eventDuration" min="1" max="24" step="0.5" placeholder="e.g., 4">
+                        </div>
+                        <div class="form-group">
+                            <label for="dateFlexible">Date/Time Flexibility</label>
+                            <select id="dateFlexible" name="dateFlexible">
+                                <option value="">Select...</option>
+                                <option value="fixed">Fixed - Cannot change</option>
+                                <option value="slightly">Slightly flexible (±1-2 days)</option>
+                                <option value="flexible">Flexible (±1 week)</option>
+                                <option value="very-flexible">Very flexible (open dates)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="alternateDates">Alternate Dates (if flexible)</label>
+                        <textarea id="alternateDates" name="alternateDates" placeholder="Please list any alternate dates that would work..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="venue" class="required">Venue/Location</label>
+                            <input type="text" id="venue" name="venue" placeholder="Venue name or address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="venueType">Venue Type</label>
+                            <select id="venueType" name="venueType">
+                                <option value="">Select...</option>
+                                <option value="client-office">Client Office/Corporate Space</option>
+                                <option value="hotel-conference">Hotel/Conference Center</option>
+                                <option value="outdoor">Outdoor/Park/Garden</option>
+                                <option value="restaurant">Restaurant/Private Dining</option>
+                                <option value="residence">Private Residence</option>
+                                <option value="event-space">Dedicated Event Space</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessWindows">Load-in / Access Time</label>
+                            <input type="text" id="accessWindows" name="accessWindows" placeholder="e.g., 2 hours before event">
+                        </div>
+                        <div class="form-group">
+                            <label for="onSiteContact">On-Site Contact Name</label>
+                            <input type="text" id="onSiteContact" name="onSiteContact" placeholder="Building manager, coordinator, etc.">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Headcount & Budget Section -->
+                <div class="section">
+                    <h2 class="section-title">Headcount & Budget</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="headcountMin" class="required">Minimum Guest Count</label>
+                            <input type="number" id="headcountMin" name="headcountMin" min="1" placeholder="e.g., 25" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="headcountTarget" class="required">Target Guest Count</label>
+                            <input type="number" id="headcountTarget" name="headcountTarget" min="1" placeholder="e.g., 50" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="headcountMax">Maximum Guest Count</label>
+                            <input type="number" id="headcountMax" name="headcountMax" min="1" placeholder="e.g., 75">
+                        </div>
+                        <div class="form-group">
+                            <label for="headcountFlexible">Headcount Flexibility</label>
+                            <select id="headcountFlexible" name="headcountFlexible">
+                                <option value="">Select...</option>
+                                <option value="fixed">Fixed - Exact number</option>
+                                <option value="slight">May vary ±10%</option>
+                                <option value="moderate">May vary ±25%</option>
+                                <option value="uncertain">Very uncertain at this stage</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="budgetPerGuest">Budget Per Guest ($)</label>
+                            <input type="number" id="budgetPerGuest" name="budgetPerGuest" min="0" step="0.01" placeholder="e.g., 45.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="budgetTotal">Total Budget Range ($)</label>
+                            <input type="text" id="budgetTotal" name="budgetTotal" placeholder="e.g., $2,000 - $3,500">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="budgetFlexible">Budget Flexibility</label>
+                        <select id="budgetFlexible" name="budgetFlexible">
+                            <option value="">Select...</option>
+                            <option value="firm">Firm - Cannot exceed</option>
+                            <option value="slight">Slightly flexible (+10%)</option>
+                            <option value="flexible">Flexible for the right value</option>
+                            <option value="no-budget">No set budget - seeking options</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Event Type & Service Style Section -->
+                <div class="section">
+                    <h2 class="section-title">Event Type & Service Style</h2>
+
+                    <div class="form-group">
+                        <label class="required">Event Type</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="radio" id="eventTypeCorporate" name="eventType" value="corporate">
+                                <label for="eventTypeCorporate">Corporate</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="eventTypeNonProfit" name="eventType" value="non-profit">
+                                <label for="eventTypeNonProfit">Non-Profit</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="eventTypePrivate" name="eventType" value="private">
+                                <label for="eventTypePrivate">Private/Social</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="eventTypeBrand" name="eventType" value="brand-activation">
+                                <label for="eventTypeBrand">Brand Activation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="eventTypeWedding" name="eventType" value="wedding">
+                                <label for="eventTypeWedding">Wedding</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="radio" id="eventTypeOther" name="eventType" value="other">
+                                <label for="eventTypeOther">Other</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="eventDescription">Event Description/Purpose</label>
+                        <textarea id="eventDescription" name="eventDescription" placeholder="Please describe the event, its purpose, and the atmosphere you want to create..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preferred Service Style (check all that apply)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="serviceBuffet" name="serviceStyle" value="buffet">
+                                <label for="serviceBuffet">Buffet</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="serviceStations" name="serviceStyle" value="stations">
+                                <label for="serviceStations">Food Stations</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="servicePlated" name="serviceStyle" value="plated">
+                                <label for="servicePlated">Plated Service</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="servicePassed" name="serviceStyle" value="passed">
+                                <label for="servicePassed">Passed Hors d'oeuvres</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="serviceBar" name="serviceStyle" value="bar">
+                                <label for="serviceBar">Bar Service</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="serviceFamilyStyle" name="serviceStyle" value="family-style">
+                                <label for="serviceFamilyStyle">Family Style</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decision Maker & Billing Section -->
+                <div class="section">
+                    <h2 class="section-title">Contact & Billing Information</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactName" class="required">Primary Contact Name</label>
+                            <input type="text" id="contactName" name="contactName" placeholder="Full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactTitle">Title/Role</label>
+                            <input type="text" id="contactTitle" name="contactTitle" placeholder="e.g., Event Coordinator">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactEmail" class="required">Email Address</label>
+                            <input type="email" id="contactEmail" name="contactEmail" placeholder="email@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone" class="required">Phone Number</label>
+                            <input type="tel" id="contactPhone" name="contactPhone" placeholder="(555) 555-5555" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="companyName">Company/Organization Name</label>
+                            <input type="text" id="companyName" name="companyName" placeholder="Organization name">
+                        </div>
+                        <div class="form-group">
+                            <label for="billingEntity">Billing Entity (if different)</label>
+                            <input type="text" id="billingEntity" name="billingEntity" placeholder="Who will be invoiced?">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="corporateSponsor">Corporate Sponsor or Fiscal Sponsor</label>
+                        <input type="text" id="corporateSponsor" name="corporateSponsor" placeholder="If applicable">
+                        <div class="help-text">If this event is sponsored or funded by another entity, please note here.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="decisionMaker">Final Decision Maker (if different from contact)</label>
+                        <input type="text" id="decisionMaker" name="decisionMaker" placeholder="Name and contact info">
+                    </div>
+                </div>
+
+                <!-- Client Priorities & Requirements Section -->
+                <div class="section">
+                    <h2 class="section-title">Priorities & Special Requirements</h2>
+
+                    <div class="form-group">
+                        <label for="priority1" class="required">Top Priority #1 (Non-Negotiable)</label>
+                        <input type="text" id="priority1" name="priority1" placeholder="What is most important for this event?" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priority2" class="required">Top Priority #2 (Non-Negotiable)</label>
+                        <input type="text" id="priority2" name="priority2" placeholder="What is your second most important requirement?" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dietaryRestrictions">Dietary Restrictions & Allergies</label>
+                        <textarea id="dietaryRestrictions" name="dietaryRestrictions" placeholder="Please list any known dietary restrictions, allergies, or special meal requirements (vegetarian, vegan, gluten-free, kosher, halal, etc.)..."></textarea>
+                        <div class="help-text">We will collect detailed guest allergy information closer to the event date.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="allergyCoordinator">Who will coordinate final guest lists and allergy information?</label>
+                        <input type="text" id="allergyCoordinator" name="allergyCoordinator" placeholder="Name and contact">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialRequests">Special Requests or Considerations</label>
+                        <textarea id="specialRequests" name="specialRequests" placeholder="Any other details we should know? (theme, décor, branding, AV needs, entertainment, etc.)"></textarea>
+                    </div>
+                </div>
+
+                <!-- Internal Assessment Section -->
+                <div class="section">
+                    <h2 class="section-title">Internal Risk Assessment (Staff Use Only)</h2>
+
+                    <div class="form-group">
+                        <label>Payment Risk Rating (1-3)</label>
+                        <div class="rating-group">
+                            <div class="rating-option">
+                                <input type="radio" id="risk1" name="riskRating" value="1">
+                                <label for="risk1">1 - Low Risk</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="risk2" name="riskRating" value="2">
+                                <label for="risk2">2 - Medium Risk</label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="risk3" name="riskRating" value="3">
+                                <label for="risk3">3 - High Risk</label>
+                            </div>
+                        </div>
+                        <div class="help-text">Consider payment history, client type, deposit terms, etc.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="venueComplexity">Venue Complexity / Logistics Notes</label>
+                        <textarea id="venueComplexity" name="venueComplexity" placeholder="Note any venue challenges: limited utilities, difficult access, security requirements, parking, permits needed, etc."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="riskFlags">Additional Risk Flags or Notes</label>
+                        <textarea id="riskFlags" name="riskFlags" placeholder="Any red flags or special considerations for this lead?"></textarea>
+                    </div>
+                </div>
+
+                <!-- Marketing & Referral Section -->
+                <div class="section">
+                    <h2 class="section-title">How Did You Hear About Us?</h2>
+
+                    <div class="form-group">
+                        <label>Referral Source</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="sourceReferral" name="marketingSource" value="referral">
+                                <label for="sourceReferral">Referral (client or friend)</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="sourceVenue" name="marketingSource" value="venue">
+                                <label for="sourceVenue">Venue recommendation</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="sourcePast" name="marketingSource" value="past-client">
+                                <label for="sourcePast">Past client</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="sourceWebsite" name="marketingSource" value="website">
+                                <label for="sourceWebsite">Website/Online search</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="sourceSocial" name="marketingSource" value="social">
+                                <label for="sourceSocial">Social media</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="sourceAd" name="marketingSource" value="advertisement">
+                                <label for="sourceAd">Advertisement</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="sourceOther" name="marketingSource" value="other">
+                                <label for="sourceOther">Other</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="referralDetails">Referral Details (if applicable)</label>
+                        <input type="text" id="referralDetails" name="referralDetails" placeholder="Who referred you or where did you see us?">
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="button-group">
+                    <button type="submit" class="btn-primary">📝 Submit Lead Intake Form</button>
+                    <button type="button" class="btn-secondary" onclick="saveAsDraft()">💾 Save Draft</button>
+                    <button type="button" class="btn-secondary" onclick="exportToJSON()">📥 Export as JSON</button>
+                    <button type="button" class="btn-secondary" onclick="printForm()">🖨️ Print Form</button>
+                    <button type="button" class="btn-secondary" onclick="clearForm()">🗑️ Clear Form</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Generate unique Event ID
+        function generateEventID() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const random = Math.random().toString(36).substr(2, 6).toUpperCase();
+            return `PR-${year}${month}${day}-${random}`;
+        }
+
+        // Auto-save form data to localStorage
+        const form = document.getElementById('leadIntakeForm');
+        const formElements = form.elements;
+
+        function autoSave() {
+            const formData = {};
+            for (let element of formElements) {
+                if (element.name) {
+                    if (element.type === 'checkbox') {
+                        if (!formData[element.name]) {
+                            formData[element.name] = [];
+                        }
+                        if (element.checked) {
+                            formData[element.name].push(element.value);
+                        }
+                    } else if (element.type === 'radio') {
+                        if (element.checked) {
+                            formData[element.name] = element.value;
+                        }
+                    } else {
+                        formData[element.name] = element.value;
+                    }
+                }
+            }
+            localStorage.setItem('leadIntakeDraft', JSON.stringify(formData));
+        }
+
+        // Load draft from localStorage
+        function loadDraft() {
+            const draft = localStorage.getItem('leadIntakeDraft');
+            if (draft) {
+                const formData = JSON.parse(draft);
+                for (let key in formData) {
+                    const elements = form.elements[key];
+                    if (elements) {
+                        if (elements.length > 1) {
+                            // Radio buttons or checkboxes
+                            for (let element of elements) {
+                                if (Array.isArray(formData[key])) {
+                                    element.checked = formData[key].includes(element.value);
+                                } else {
+                                    element.checked = element.value === formData[key];
+                                }
+                            }
+                        } else {
+                            elements.value = formData[key];
+                        }
+                    }
+                }
+            }
+        }
+
+        // Auto-save every 30 seconds and on input change
+        setInterval(autoSave, 30000);
+        form.addEventListener('input', autoSave);
+
+        // Load draft on page load
+        window.addEventListener('load', loadDraft);
+
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Generate Event ID
+            const eventID = generateEventID();
+
+            // Collect form data
+            const formData = {
+                eventID: eventID,
+                submissionDate: new Date().toISOString(),
+            };
+
+            for (let element of formElements) {
+                if (element.name) {
+                    if (element.type === 'checkbox') {
+                        if (!formData[element.name]) {
+                            formData[element.name] = [];
+                        }
+                        if (element.checked) {
+                            formData[element.name].push(element.value);
+                        }
+                    } else if (element.type === 'radio') {
+                        if (element.checked) {
+                            formData[element.name] = element.value;
+                        }
+                    } else {
+                        formData[element.name] = element.value;
+                    }
+                }
+            }
+
+            // Save to localStorage
+            const allLeads = JSON.parse(localStorage.getItem('allLeads') || '[]');
+            allLeads.push(formData);
+            localStorage.setItem('allLeads', JSON.stringify(allLeads));
+
+            // Display Event ID
+            document.getElementById('eventIdValue').textContent = eventID;
+            document.getElementById('eventIdDisplay').style.display = 'block';
+
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Clear draft
+            localStorage.removeItem('leadIntakeDraft');
+
+            // In a real application, you would send this data to your backend
+            console.log('Form submitted with data:', formData);
+
+            // Auto-hide success message after 5 seconds
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 5000);
+        });
+
+        function saveAsDraft() {
+            autoSave();
+            alert('✓ Draft saved successfully! Your data will be restored when you return.');
+        }
+
+        function exportToJSON() {
+            const formData = {};
+            for (let element of formElements) {
+                if (element.name) {
+                    if (element.type === 'checkbox') {
+                        if (!formData[element.name]) {
+                            formData[element.name] = [];
+                        }
+                        if (element.checked) {
+                            formData[element.name].push(element.value);
+                        }
+                    } else if (element.type === 'radio') {
+                        if (element.checked) {
+                            formData[element.name] = element.value;
+                        }
+                    } else {
+                        formData[element.name] = element.value;
+                    }
+                }
+            }
+
+            const dataStr = JSON.stringify(formData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `lead-intake-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function printForm() {
+            window.print();
+        }
+
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all form data? This cannot be undone.')) {
+                form.reset();
+                localStorage.removeItem('leadIntakeDraft');
+                document.getElementById('eventIdDisplay').style.display = 'none';
+                document.getElementById('successMessage').classList.remove('show');
+            }
+        }
+
+        // Phone number formatting
+        const phoneInput = document.getElementById('contactPhone');
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length <= 3) {
+                    value = `(${value}`;
+                } else if (value.length <= 6) {
+                    value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+                } else {
+                    value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+                }
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>

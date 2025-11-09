@@ -1,0 +1,71 @@
+{
+  "eventID": "PR-20250316-K2M8P5",
+  "submissionDate": "2025-03-16T09:15:42.000Z",
+  "formVersion": "1.0.0",
+
+  "eventBasics": {
+    "eventDate": "2025-09-14",
+    "eventTime": "17:00",
+    "eventDuration": 5,
+    "dateFlexible": "flexible",
+    "alternateDates": "September 7, 14, 21, or 28 - Any Saturday in September works for us!",
+    "venue": "Riverside Gardens Event Space, 4500 River Road (outdoor ceremony, indoor reception)",
+    "venueType": "event-space",
+    "accessWindows": "Venue allows access from 12pm, ceremony at 5pm, reception starts 6pm",
+    "onSiteContact": "David Park, venue owner - (555) 445-7788"
+  },
+
+  "headcountBudget": {
+    "headcountMin": 80,
+    "headcountTarget": 100,
+    "headcountMax": 110,
+    "headcountFlexible": "moderate",
+    "budgetPerGuest": 72.00,
+    "budgetTotal": "$6,500 - $8,000",
+    "budgetFlexible": "flexible"
+  },
+
+  "eventTypeService": {
+    "eventType": "wedding",
+    "eventDescription": "Outdoor garden wedding ceremony followed by indoor reception. We want an elegant but relaxed atmosphere - not overly formal. Guests will be a mix of family (including elderly grandparents and young children) and friends in their 20s-40s. We love the idea of interactive food stations where guests can mingle and choose their favorites. Farm-to-table aesthetic with seasonal ingredients would be perfect.",
+    "serviceStyle": ["stations", "passed", "bar"]
+  },
+
+  "contactBilling": {
+    "contactName": "Amanda Chen",
+    "contactTitle": "Bride",
+    "contactEmail": "amanda.chen.wedding@gmail.com",
+    "contactPhone": "(555) 892-3344",
+    "companyName": "",
+    "billingEntity": "Amanda Chen & Michael Stevens",
+    "corporateSponsor": "",
+    "decisionMaker": "Shared decision between Amanda Chen (bride) and Michael Stevens (groom). Michael's email: m.stevens.wedding@gmail.com, phone (555) 892-3345. Both need to approve final decisions."
+  },
+
+  "priorities": {
+    "priority1": "Delicious, memorable food that people will talk about! We're both foodies and this is THE most important part of our reception.",
+    "priority2": "Accommodate our diverse dietary needs - we have several vegetarian/vegan guests and some with serious allergies. Everyone needs to feel included and have great options.",
+    "dietaryRestrictions": "Approximately 15-20 vegetarian (several are vegan), 1 guest with celiac disease (severe gluten intolerance), 1 child with dairy allergy, 2 guests with tree nut allergies. My (Amanda's) best friend is pregnant and avoiding certain foods. Will provide detailed list once RSVPs are in - about 2 months before.",
+    "allergyCoordinator": "Amanda Chen (bride) - I'm tracking all RSVPs and dietary needs in a spreadsheet",
+    "specialRequests": "We love the idea of a late-night snack station (thinking mini grilled cheese, sliders, or something fun around 9pm when dancing gets going). Also interested in a signature cocktail bar for the reception - maybe one cocktail representing each of us? We're flexible on bar service (could be beer/wine only to save costs, or full bar if budget allows). Not sure if you provide dessert, but we're having a small cutting cake and want to serve a variety of mini desserts instead of traditional wedding cake for everyone."
+  },
+
+  "internalAssessment": {
+    "riskRating": 2,
+    "venueComplexity": "Riverside Gardens is a newer venue - need to verify kitchen facilities and power availability. Outdoor ceremony means weather contingency planning required. Access notes: Venue is semi-rural, gravel parking lot, loading area is around back. Need to confirm if generator needed or if kitchen power is sufficient for our equipment. Check with David Park on utilities. Also confirm if we need to bring portable handwashing stations per health code.",
+    "riskFlags": "MEDIUM RISK - Wedding (personal clients can be higher emotion/stress). Budget is moderate but they mention flexibility. Good sign: very organized bride with spreadsheet tracking. Potential concern: Split decision makers (bride + groom both need approval). Recommend: Clear communication protocol, detailed contract, possibly higher deposit (40-50%). Payment plan may be needed (weddings often benefit from deposit + 2-3 installment schedule). Verify that billing entity can cover full amount - may want to request parent/sponsor backup if couple is young professionals."
+  },
+
+  "marketing": {
+    "marketingSource": "venue",
+    "referralDetails": "David Park at Riverside Gardens recommended us. Amanda mentioned he said we did a beautiful wedding there last fall."
+  },
+
+  "metadata": {
+    "status": "submitted",
+    "assignedTo": "Lisa Patel - Wedding & Social Events Specialist",
+    "createdBy": "Web Form Submission",
+    "lastModified": "2025-03-16T09:15:42.000Z",
+    "notes": "Good lead - venue referral, food-focused clients, flexible on dates and budget. Recommend presenting TWO packages: (1) Stations + passed apps with beer/wine bar, and (2) Premium with stations + full bar + late-night station. Include optional dessert station add-on. Schedule venue walkthrough with Lisa to assess kitchen/utilities before finalizing proposal. September date gives us good lead time. Follow up within 48 hours."
+  }
+}

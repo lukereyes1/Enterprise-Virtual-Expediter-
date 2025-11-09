@@ -1,0 +1,148 @@
+SUBJECT: Thank You for Your Event Inquiry - Palacio Reyes Events [Event ID: {{EVENT_ID}}]
+
+═══════════════════════════════════════════════════════════════
+🍽️ PALACIO REYES EVENTS & CATERING
+   Exceptional Catering for Memorable Moments
+═══════════════════════════════════════════════════════════════
+
+Hello {{CLIENT_NAME}},
+
+Thank you for reaching out about catering for {{EVENT_DESCRIPTION}} on {{EVENT_DATE}}. We're excited to learn more about your vision!
+
+───────────────────────────────────────────────────────────────
+YOUR EVENT ID: {{EVENT_ID}}
+───────────────────────────────────────────────────────────────
+Please reference this ID in all future communications.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HERE'S WHAT HAPPENS NEXT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1️⃣  INITIAL DISCOVERY CALL
+    We'll discuss your goals, event details, guest count, budget and
+    any non-negotiables. This brief 20-minute call helps us tailor
+    the perfect proposal for you.
+
+2️⃣  TAILORED PROPOSAL
+    Based on your input, we'll send you one or two structured menu
+    packages with transparent pricing, inclusions and service details.
+
+3️⃣  AGREEMENT & DEPOSIT
+    When you select a package, we'll send a Service Agreement and
+    Statement of Work outlining all the details, along with a deposit
+    invoice to lock in your date.
+
+
+───────────────────────────────────────────────────────────────
+📅 READY TO SCHEDULE YOUR DISCOVERY CALL?
+───────────────────────────────────────────────────────────────
+
+We'll reach out within 24 HOURS to schedule a time that works for you.
+
+If you'd prefer to schedule immediately, visit:
+{{SCHEDULING_LINK}}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QUESTIONS? WE'RE HERE TO HELP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Feel free to reply to this email or reach out directly:
+
+📞  Phone:    {{PHONE_NUMBER}}
+✉️  Email:    {{EMAIL_ADDRESS}}
+🌐  Website:  {{WEBSITE_URL}}
+
+
+We look forward to bringing your vision to life!
+
+Warm regards,
+
+{{SENDER_NAME}}
+{{SENDER_TITLE}}
+Palacio Reyes Events & Catering
+
+
+───────────────────────────────────────────────────────────────
+FOLLOW US FOR INSPIRATION & UPDATES
+───────────────────────────────────────────────────────────────
+
+Instagram: {{INSTAGRAM_URL}}
+Facebook:  {{FACEBOOK_URL}}
+LinkedIn:  {{LINKEDIN_URL}}
+
+
+═══════════════════════════════════════════════════════════════
+© {{CURRENT_YEAR}} Palacio Reyes Events & Catering
+{{BUSINESS_ADDRESS}}
+
+Privacy Policy: {{PRIVACY_POLICY_URL}}
+Unsubscribe: {{UNSUBSCRIBE_URL}}
+═══════════════════════════════════════════════════════════════
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CUSTOMIZATION INSTRUCTIONS FOR YOUR TEAM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Replace these placeholders with actual values when sending:
+
+{{CLIENT_NAME}}        - Client's first name from Lead Intake Form
+{{EVENT_DESCRIPTION}}  - Brief description (e.g., "your corporate gala")
+{{EVENT_DATE}}         - Event date in readable format (e.g., "May 22, 2025")
+{{EVENT_ID}}           - Auto-generated Event ID from form
+{{SCHEDULING_LINK}}    - Link to your Calendly/scheduling tool
+{{BUDGET_RANGE}}       - Optional: client's stated budget
+{{PHONE_NUMBER}}       - Your business phone
+{{EMAIL_ADDRESS}}      - Your business email
+{{WEBSITE_URL}}        - Your website
+{{SENDER_NAME}}        - Name of person/team sending email
+{{SENDER_TITLE}}       - Title (e.g., "Events Coordinator")
+{{CURRENT_YEAR}}       - Current year
+{{BUSINESS_ADDRESS}}   - Your full business address
+{{INSTAGRAM_URL}}      - Your Instagram profile
+{{FACEBOOK_URL}}       - Your Facebook page
+{{LINKEDIN_URL}}       - Your LinkedIn profile
+{{PRIVACY_POLICY_URL}} - Link to privacy policy
+{{UNSUBSCRIBE_URL}}    - Unsubscribe link (required for compliance)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AUTOMATION SETUP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This template can be automated using:
+
+1. GOOGLE APPS SCRIPT (Google Sheets integration)
+   - Trigger on form submission
+   - Replace placeholders with form data
+   - Send via MailApp.sendEmail()
+
+2. EMAIL MARKETING PLATFORM (Mailchimp, SendGrid, etc.)
+   - Create template in platform
+   - Use merge tags for personalization
+   - Trigger via webhook on form submission
+
+3. CRM SYSTEM (Salesforce, HubSpot, etc.)
+   - Create email template in CRM
+   - Set up workflow automation
+   - Trigger when new lead is created
+
+Sample Google Apps Script function:
+
+function sendAutoResponse(formData) {
+  var template = MailApp.getRawContent('template-message-id');
+
+  template = template.replace('{{CLIENT_NAME}}', formData.contactName);
+  template = template.replace('{{EVENT_DATE}}', formData.eventDate);
+  template = template.replace('{{EVENT_ID}}', formData.eventID);
+  // ... replace all other placeholders
+
+  MailApp.sendEmail({
+    to: formData.contactEmail,
+    subject: 'Thank You for Your Event Inquiry - Event ID: ' + formData.eventID,
+    body: template
+  });
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

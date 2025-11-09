@@ -1,0 +1,71 @@
+{
+  "eventID": "PR-20250315-A7B9C2",
+  "submissionDate": "2025-03-15T14:32:18.000Z",
+  "formVersion": "1.0.0",
+
+  "eventBasics": {
+    "eventDate": "2025-05-22",
+    "eventTime": "18:00",
+    "eventDuration": 4.5,
+    "dateFlexible": "slightly",
+    "alternateDates": "May 23 or May 29 would also work if needed",
+    "venue": "Grand Ballroom at The Meridian Hotel, 1250 Market Street, Downtown",
+    "venueType": "hotel-conference",
+    "accessWindows": "Load-in allowed starting 2pm, must be completed by 5:30pm",
+    "onSiteContact": "Sarah Martinez, Venue Events Manager - (555) 987-6543"
+  },
+
+  "headcountBudget": {
+    "headcountMin": 150,
+    "headcountTarget": 175,
+    "headcountMax": 200,
+    "headcountFlexible": "slight",
+    "budgetPerGuest": 85.00,
+    "budgetTotal": "$14,000 - $17,000",
+    "budgetFlexible": "slight"
+  },
+
+  "eventTypeService": {
+    "eventType": "corporate",
+    "eventDescription": "Annual Excellence Awards Gala Dinner for TechVision Inc. This is our signature event celebrating employee achievements and company milestones. Atmosphere should be elegant and professional with a celebratory tone. Key executives and their spouses will be in attendance, along with top-performing team members from all departments. We'll have a brief awards ceremony between courses.",
+    "serviceStyle": ["passed", "plated", "bar"]
+  },
+
+  "contactBilling": {
+    "contactName": "Jennifer Rodriguez",
+    "contactTitle": "Director of Employee Experience",
+    "contactEmail": "j.rodriguez@techvision.com",
+    "contactPhone": "(555) 234-5678",
+    "companyName": "TechVision Inc.",
+    "billingEntity": "TechVision Inc.",
+    "corporateSponsor": "",
+    "decisionMaker": "Same - Jennifer Rodriguez has final approval"
+  },
+
+  "priorities": {
+    "priority1": "Exceptional food quality and presentation - This is our premier event and needs to reflect our company's commitment to excellence",
+    "priority2": "Precise timing - Awards ceremony is scheduled between courses and cannot be delayed. Service must be on schedule.",
+    "dietaryRestrictions": "Approximately 25 vegetarian meals needed, 8-10 gluten-free, 5 vegan, 2 guests with shellfish allergies, 1 guest with severe nut allergy. Will provide final detailed list 2 weeks before event.",
+    "allergyCoordinator": "Jennifer Rodriguez (myself) - I maintain the master guest list and will coordinate with attendees",
+    "specialRequests": "We would like tasteful table settings that complement our corporate colors (navy blue and silver). We will provide centerpieces but need your recommendation on linens. Also exploring the possibility of a signature cocktail for the reception hour - perhaps something with our logo or theme? We'll have AV team on-site for the awards presentation. Will need coordination for timing when servers clear/deliver courses around the presentations."
+  },
+
+  "internalAssessment": {
+    "riskRating": 1,
+    "venueComplexity": "Established partnership venue - The Meridian. Full kitchen facilities available. Loading dock access confirmed. Power and utilities are excellent. Venue coordinator Sarah is very experienced and easy to work with. Note: Venue requires COI with $2M liability naming them as additional insured.",
+    "riskFlags": "Low risk overall. TechVision is a well-established Fortune 500 company with excellent payment history (past client - catered their holiday party Dec 2023, paid on time, no issues). Large event with high visibility - good portfolio opportunity. Confirmed corporate credit card on file for deposit."
+  },
+
+  "marketing": {
+    "marketingSource": "past-client",
+    "referralDetails": "TechVision worked with us for their holiday party in December 2023. Jennifer reached out directly via email mentioning the excellent experience and requesting a quote for this larger gala event."
+  },
+
+  "metadata": {
+    "status": "submitted",
+    "assignedTo": "Maria Santos - Senior Event Sales",
+    "createdBy": "Web Form Submission",
+    "lastModified": "2025-03-15T14:32:18.000Z",
+    "notes": "HIGH PRIORITY - Past client with excellent experience. Fast-track qualification. Recommend scheduling discovery call within 24 hours. Consider offering premium package with signature cocktail option and upgraded presentation. This could become annual repeat business."
+  }
+}
