@@ -5,82 +5,12 @@ This module defines raw metrics, factor scores, and the logic to compute
 percentile-based factor scores across a universe of stocks.
 """
 
-from dataclasses import dataclass
 from typing import List, Dict, Optional
 import statistics
 
-from shortscreen.data import MarketData, FundamentalData
-
-
-@dataclass
-class RawMetrics:
-    """
-    Raw financial and market metrics for a ticker.
-
-    These metrics are computed from market and fundamental data and serve
-    as inputs to factor score calculations.
-    """
-    ticker: str
-
-    # Valuation metrics
-    price_to_sales: float
-    price_to_book: float
-    ev_to_ebitda: float
-
-    # Profitability metrics
-    net_margin: float
-    ebitda_margin: float
-    roe: float  # Return on Equity
-
-    # Growth metrics
-    revenue_growth: float
-
-    # Leverage metrics
-    debt_to_equity: float
-    debt_to_assets: float
-    net_debt_to_ebitda: float
-
-    # Quality metrics
-    fcf_margin: float
-    current_ratio: float
-
-    # Market metrics
-    beta: float
-    market_cap: float
-    distance_from_52w_high: float  # (52w_high - price) / price
-
-    # Sector/Industry
-    sector: str
-    industry: str
-
-
-@dataclass
-class FactorScores:
-    """
-    Percentile-based factor scores for a ticker.
-
-    Each score is a percentile rank (0-100) where higher values indicate
-    more bearish characteristics for that factor.
-    """
-    ticker: str
-
-    # Valuation scores (higher = more expensive = more bearish)
-    valuation_score: float
-
-    # Profitability scores (higher = less profitable = more bearish)
-    profitability_score: float
-
-    # Growth scores (higher = negative/slowing growth = more bearish)
-    growth_score: float
-
-    # Leverage scores (higher = more levered = more bearish)
-    leverage_score: float
-
-    # Quality scores (higher = lower quality = more bearish)
-    quality_score: float
-
-    # Market scores (higher = higher beta/momentum issues = more bearish)
-    market_score: float
+# Import models from central location (single source of truth)
+from shortscreen.models.data import MarketData, FundamentalData
+from shortscreen.models.core import RawMetrics, FactorScores
 
 
 def compute_raw_metrics(

@@ -14,10 +14,13 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import List, Dict, Optional, Any
 
-from shortscreen.engine import ShortScreenEngine, ShortCandidate
-from shortscreen.macro import MacroRegime
+from shortscreen.engine import ShortScreenEngine
 from shortscreen.datastore import DataStore
 from shortscreen.data import DataProvider
+
+# Import models from central location (single source of truth)
+from shortscreen.models.core import MacroRegime
+from shortscreen.models.screening import ShortCandidate
 
 logger = logging.getLogger(__name__)
 

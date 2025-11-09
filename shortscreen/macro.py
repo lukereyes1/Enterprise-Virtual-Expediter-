@@ -5,38 +5,13 @@ This module defines macro regime indicators and logic to compute
 theme-specific weights based on current macro conditions.
 """
 
-from dataclasses import dataclass
 from typing import Dict
 import yaml
 
 from shortscreen.config import THEME_CONFIG_PATH
 
-
-@dataclass
-class MacroRegime:
-    """
-    Macro regime indicators.
-
-    Each indicator is a value between 0 and 1, where higher values
-    indicate stronger conditions for that regime.
-    """
-    downturn: float  # Economic downturn risk (0-1)
-    inflation: float  # Inflation pressure (0-1)
-    liquidity: float  # Liquidity stress (0-1)
-
-    def __post_init__(self):
-        """Validate that all values are between 0 and 1."""
-        for field in ['downturn', 'inflation', 'liquidity']:
-            value = getattr(self, field)
-            if not 0.0 <= value <= 1.0:
-                raise ValueError(f"{field} must be between 0 and 1, got {value}")
-
-
-@dataclass
-class ThemeConfig:
-    """Configuration for a single theme."""
-    base_weight: float
-    sensitivities: Dict[str, float]
+# Import models from central location (single source of truth)
+from shortscreen.models.core import MacroRegime, ThemeConfig
 
 
 def load_theme_config() -> Dict[str, ThemeConfig]:

@@ -6,39 +6,11 @@ metrics, and other data sources. The current implementation uses mock data for
 testing and development, but is designed to be easily swapped with real API calls.
 """
 
-from dataclasses import dataclass
 from typing import List, Dict, Optional
 import random
 
-
-@dataclass
-class MarketData:
-    """Market data for a ticker."""
-    ticker: str
-    price: float
-    market_cap: float  # in millions
-    beta: float
-    volume_20d_avg: float
-    price_52w_high: float
-    price_52w_low: float
-
-
-@dataclass
-class FundamentalData:
-    """Fundamental data for a ticker."""
-    ticker: str
-    revenue: float  # in millions
-    revenue_growth: float  # year-over-year
-    ebitda: float  # in millions
-    net_income: float  # in millions
-    total_debt: float  # in millions
-    cash: float  # in millions
-    total_assets: float  # in millions
-    total_equity: float  # in millions
-    free_cash_flow: float  # in millions
-    shares_outstanding: float  # in millions
-    sector: str
-    industry: str
+# Import models from central location (single source of truth)
+from shortscreen.models.data import MarketData, FundamentalData
 
 
 class DataProvider:

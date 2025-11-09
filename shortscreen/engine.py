@@ -9,49 +9,18 @@ This module coordinates the entire screening process:
 5. Generate ranked short candidates
 """
 
-from dataclasses import dataclass
 from typing import List, Dict, Optional
 import statistics
 
 from shortscreen.data import DataProvider
-from shortscreen.factors import (
-    RawMetrics,
-    FactorScores,
-    compute_raw_metrics,
-    compute_all_factor_scores
-)
+from shortscreen.factors import compute_raw_metrics, compute_all_factor_scores
 from shortscreen.themes import get_all_themes, compute_theme_scores
-from shortscreen.macro import MacroRegime, compute_theme_weights, get_theme_name_mapping
+from shortscreen.macro import compute_theme_weights, get_theme_name_mapping
 
-
-@dataclass
-class ShortCandidate:
-    """
-    A short candidate with all relevant scores and metadata.
-    """
-    ticker: str
-    global_vulnerability_score: float
-    dominant_theme: str
-    dominant_theme_score: float
-
-    # Individual theme scores
-    theme_scores: Dict[str, float]
-
-    # Factor scores
-    valuation_score: float
-    profitability_score: float
-    growth_score: float
-    leverage_score: float
-    quality_score: float
-    market_score: float
-
-    # Key raw metrics
-    market_cap: float
-    sector: str
-    revenue_growth: float
-    net_margin: float
-    debt_to_equity: float
-    beta: float
+# Import models from central location (single source of truth)
+from shortscreen.models.data import MarketData, FundamentalData
+from shortscreen.models.core import RawMetrics, FactorScores, MacroRegime
+from shortscreen.models.screening import ShortCandidate
 
 
 class ShortScreenEngine:
