@@ -1,0 +1,201 @@
+{
+  "workflow": {
+    "id": "schedule_change_approval",
+    "name": "Schedule Change Approval Workflow",
+    "description": "Human-in-the-loop workflow for calendar modifications",
+    "version": "1.0"
+  },
+  "trigger": {
+    "type": "ai_action",
+    "action": "modify_calendar_event",
+    "conditions": [
+      {
+        "field": "requiresApproval",
+        "operator": "equals",
+        "value": true
+      },
+      {
+        "or": [
+          { "field": "event_priority", "operator": "in", "value": ["Critical", "High"] },
+          { "field": "change_type", "operator": "equals", "value": "cancel" },
+          { "field": "has_external_attendees", "operator": "equals", "value": true }
+        ]
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "analyze_impact",
+      "type": "ai_action",
+      "action": "analyze_schedule_impact",
+      "inputs": {
+        "event_id": "{{ event_id }}",
+        "change_type": "{{ change_type }}",
+        "proposed_changes": "{{ proposed_changes }}"
+      },
+      "outputs": {
+        "impact_analysis": "object",
+        "affected_parties": "array",
+        "conflicts": "array"
+      }
+    },
+    {
+      "id": "approval_notification",
+      "type": "notification",
+      "channels": ["email", "sms"],
+      "priority": "{{ event_priority }}",
+      "template": {
+        "subject": "📅 Schedule Change Approval: {{ event_title }}",
+        "body": "Hi {{ user_name }},\n\nThe AI is proposing a calendar change:\n\n**Event**: {{ event_title }}\n**Current Time**: {{ current_datetime }}\n**Change Type**: {{ change_type }}\n**Priority**: {{ event_priority }}\n\n**Proposed Change**:\n{{ proposed_changes }}\n\n**Impact Analysis**:\n{{ impact_analysis }}\n\n**Affected Parties**:\n{{ affected_parties_list }}\n\n**Reason for Change**:\n{{ change_reason }}\n\n**Alternative Options**:\n{{ alternatives }}\n\n**Actions**:\n- [Approve Change]({{ approve_url }})\n- [Propose Alternative]({{ alternative_url }})\n- [Keep Original]({{ keep_url }})\n- [Let Me Handle It]({{ manual_url }})\n\n**Context**:\n- This Week: {{ week_event_count }} events\n- Conflicts Created: {{ conflicts_created }}\n- Conflicts Resolved: {{ conflicts_resolved }}\n\n---\nHome Ops Assistant"
+      },
+      "wait_for_response": true,
+      "timeout_minutes": 180,
+      "reminder_schedule": [30, 90]
+    },
+    {
+      "id": "decision_routing",
+      "type": "conditional",
+      "conditions": [
+        {
+          "if": "{{ user_action }} == 'approve'",
+          "then": "execute_change"
+        },
+        {
+          "if": "{{ user_action }} == 'alternative'",
+          "then": "propose_alternative"
+        },
+        {
+          "if": "{{ user_action }} == 'keep'",
+          "then": "keep_original"
+        },
+        {
+          "if": "{{ user_action }} == 'manual'",
+          "then": "manual_handling"
+        },
+        {
+          "if": "{{ timeout_reached }}",
+          "then": "escalate"
+        }
+      ]
+    },
+    {
+      "id": "execute_change",
+      "type": "action",
+      "action": "modify_calendar_event",
+      "inputs": {
+        "event_id": "{{ event_id }}",
+        "changes": "{{ proposed_changes }}",
+        "notify_attendees": true,
+        "notification_message": "{{ notification_message }}"
+      },
+      "next": "notify_affected_parties"
+    },
+    {
+      "id": "notify_affected_parties",
+      "type": "action",
+      "action": "send_notifications",
+      "inputs": {
+        "affected_parties": "{{ affected_parties }}",
+        "change_summary": "{{ change_summary }}",
+        "method": "email_or_text"
+      },
+      "next": "update_tasks"
+    },
+    {
+      "id": "update_tasks",
+      "type": "ai_action",
+      "action": "update_related_tasks",
+      "inputs": {
+        "event_id": "{{ event_id }}",
+        "changes": "{{ proposed_changes }}"
+      },
+      "note": "Update prep tasks, reminders, etc.",
+      "next": "log_action"
+    },
+    {
+      "id": "propose_alternative",
+      "type": "ai_action",
+      "action": "find_alternative_times",
+      "inputs": {
+        "event_id": "{{ event_id }}",
+        "constraints": "{{ user_constraints }}",
+        "attendees": "{{ attendees }}"
+      },
+      "next": "approval_notification"
+    },
+    {
+      "id": "keep_original",
+      "type": "action",
+      "action": "maintain_current_schedule",
+      "inputs": {
+        "event_id": "{{ event_id }}",
+        "reason": "{{ keep_reason }}"
+      },
+      "next": "resolve_conflicts"
+    },
+    {
+      "id": "resolve_conflicts",
+      "type": "ai_action",
+      "action": "identify_alternative_resolutions",
+      "inputs": {
+        "event_id": "{{ event_id }}",
+        "conflict_ids": "{{ conflict_ids }}"
+      },
+      "note": "If keeping this event, may need to move conflicting ones",
+      "next": "log_action"
+    },
+    {
+      "id": "manual_handling",
+      "type": "action",
+      "action": "flag_for_manual_handling",
+      "inputs": {
+        "event_id": "{{ event_id }}",
+        "notes": "User will handle this manually"
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "escalate",
+      "type": "notification",
+      "channels": ["sms"],
+      "priority": "high",
+      "template": {
+        "subject": "⚠️ Schedule Change Needs Decision",
+        "body": "{{ event_title }} change has been pending for 3 hours. This may affect: {{ affected_parties_summary }}"
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "log_action",
+      "type": "logging",
+      "log_data": {
+        "workflow_id": "schedule_change_approval",
+        "event_id": "{{ event_id }}",
+        "event_title": "{{ event_title }}",
+        "change_type": "{{ change_type }}",
+        "action_taken": "{{ user_action }}",
+        "timestamp": "{{ action_timestamp }}",
+        "response_time_minutes": "{{ response_time }}",
+        "affected_parties_count": "{{ affected_parties_count }}"
+      }
+    }
+  ],
+  "metrics": {
+    "track": [
+      "approval_rate",
+      "average_response_time",
+      "change_type_distribution",
+      "manual_handling_rate",
+      "conflict_resolution_rate"
+    ]
+  },
+  "smart_batching": {
+    "enabled": true,
+    "batch_window_minutes": 30,
+    "description": "If multiple changes proposed within window, batch into single approval request"
+  },
+  "fallback": {
+    "on_error": "notify_admin",
+    "action": "maintain_current_schedule"
+  }
+}

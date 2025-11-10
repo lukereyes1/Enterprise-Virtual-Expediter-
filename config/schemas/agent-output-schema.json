@@ -1,0 +1,218 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://homeops.ai/schemas/agent-output.json",
+  "title": "Agent Output",
+  "description": "Standard output format for Home Ops Agent responses",
+  "type": "object",
+  "required": ["tasks", "summary"],
+  "properties": {
+    "tasks": {
+      "type": "array",
+      "items": {
+        "$ref": "task-schema.json"
+      },
+      "description": "List of tasks created or modified"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 1000,
+      "description": "Executive summary of the situation and analysis"
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["question", "context", "urgency"],
+        "properties": {
+          "question": {
+            "type": "string",
+            "minLength": 5,
+            "description": "Clear question needing answer"
+          },
+          "context": {
+            "type": "string",
+            "description": "Background and reason for asking"
+          },
+          "urgency": {
+            "type": "string",
+            "enum": ["Immediate", "This Week", "This Month", "No Rush"]
+          },
+          "blockedTasks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^task-[a-z0-9-]+$"
+            },
+            "description": "Task IDs blocked by this question"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": { "type": "string" },
+                "description": { "type": "string" },
+                "pros": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "cons": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "description": "Preset options if applicable"
+          }
+        }
+      },
+      "description": "Questions requiring user input"
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "description", "affectedTasks"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["Schedule", "Resource", "Priority", "Budget", "Dependency"]
+          },
+          "description": {
+            "type": "string",
+            "description": "What is conflicting"
+          },
+          "affectedTasks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Task or event IDs affected"
+          },
+          "affectedEvents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["Critical", "High", "Medium", "Low"]
+          },
+          "suggestedResolution": {
+            "type": "string",
+            "description": "Proposed way to resolve"
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "description": { "type": "string" },
+                "tradeoffs": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "description": "Detected conflicts requiring resolution"
+    },
+    "updates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["entity", "entityId", "updateType"],
+        "properties": {
+          "entity": {
+            "type": "string",
+            "enum": ["Person", "Vendor", "Event", "Task", "Project"]
+          },
+          "entityId": {
+            "type": "string",
+            "description": "ID of the entity being updated"
+          },
+          "updateType": {
+            "type": "string",
+            "enum": ["Create", "Update", "Delete", "Archive"]
+          },
+          "changes": {
+            "type": "object",
+            "description": "Object containing the changes"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why this update is being made"
+          },
+          "requiresApproval": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "description": "Updates to entities in the system"
+    },
+    "proactiveInsights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["Pattern", "Optimization", "Risk", "Opportunity"]
+          },
+          "description": {
+            "type": "string"
+          },
+          "recommendation": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "string",
+            "enum": ["High", "Medium", "Low"]
+          }
+        }
+      },
+      "description": "Proactive insights and recommendations"
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "tasksCreated": { "type": "integer" },
+        "tasksCompleted": { "type": "integer" },
+        "conflictsDetected": { "type": "integer" },
+        "questionsAsked": { "type": "integer" },
+        "entitiesUpdated": { "type": "integer" },
+        "estimatedTimeSaved": { "type": "integer", "description": "Minutes" },
+        "approvalRequestsSent": { "type": "integer" }
+      },
+      "description": "Metrics for this interaction"
+    },
+    "nextSteps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": { "type": "string" },
+          "owner": { "type": "string" },
+          "dueDate": { "type": "string", "format": "date" },
+          "dependency": { "type": "string" }
+        }
+      },
+      "description": "Clear next steps and ownership"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this output was generated"
+    },
+    "agentVersion": {
+      "type": "string",
+      "description": "Version of the agent that generated this output"
+    },
+    "processingTimeMs": {
+      "type": "integer",
+      "description": "Time taken to process in milliseconds"
+    }
+  }
+}

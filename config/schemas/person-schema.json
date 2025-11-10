@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://homeops.ai/schemas/person.json",
+  "title": "Person",
+  "description": "A person in the home ops system",
+  "type": "object",
+  "required": ["id", "name", "role"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier",
+      "pattern": "^person-[a-z0-9-]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role": {
+      "type": "string",
+      "enum": ["Family", "Extended Family", "Friend", "VIP", "Contact", "Vendor Contact", "Service Provider"],
+      "description": "Relationship category"
+    },
+    "contactInfo": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "phone": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "street": { "type": "string" },
+            "city": { "type": "string" },
+            "state": { "type": "string" },
+            "zip": { "type": "string" },
+            "country": { "type": "string" }
+          }
+        }
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^person-[a-z0-9-]+$"
+      },
+      "description": "IDs of related people"
+    },
+    "preferences": {
+      "type": "object",
+      "description": "Known preferences (dietary, communication style, etc.)"
+    },
+    "vipStatus": {
+      "type": "boolean",
+      "description": "Whether this person requires approval for communications"
+    },
+    "approvalRequired": {
+      "type": "boolean",
+      "description": "Whether communication needs approval"
+    },
+    "approvalReason": {
+      "type": "string",
+      "description": "Why approval is required"
+    },
+    "birthday": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "string", "format": "date-time" },
+          "content": { "type": "string" }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

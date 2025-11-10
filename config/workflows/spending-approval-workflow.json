@@ -1,0 +1,206 @@
+{
+  "workflow": {
+    "id": "spending_approval",
+    "name": "Spending Approval Workflow",
+    "description": "Human-in-the-loop workflow for purchases and financial commitments",
+    "version": "1.0"
+  },
+  "trigger": {
+    "type": "ai_action",
+    "action": "initiate_purchase",
+    "conditions": [
+      {
+        "field": "amount",
+        "operator": "greater_than",
+        "value": "{{ spending_threshold }}"
+      },
+      {
+        "field": "requiresApproval",
+        "operator": "equals",
+        "value": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "gather_purchase_details",
+      "type": "ai_action",
+      "action": "compile_purchase_info",
+      "inputs": {
+        "item": "{{ item_description }}",
+        "vendor": "{{ vendor_name }}",
+        "amount": "{{ purchase_amount }}",
+        "category": "{{ category }}",
+        "justification": "{{ justification }}"
+      },
+      "outputs": {
+        "purchase_summary": "object"
+      }
+    },
+    {
+      "id": "approval_notification",
+      "type": "notification",
+      "channels": ["email", "sms"],
+      "priority": "high",
+      "template": {
+        "subject": "💳 Purchase Approval Needed: ${{ purchase_amount }}",
+        "body": "Hi {{ user_name }},\n\nThe AI is requesting approval for a purchase:\n\n**Item**: {{ item_description }}\n**Vendor**: {{ vendor_name }}\n**Amount**: ${{ purchase_amount }}\n**Category**: {{ category }}\n**Budget Impact**: {{ budget_impact }}\n\n**Justification**:\n{{ justification }}\n\n**Why Approval Needed**:\n{{ approval_reason }}\n\n**Alternatives Considered**:\n{{ alternatives }}\n\n**Actions**:\n- [Approve Purchase]({{ approve_url }})\n- [Modify & Approve]({{ modify_url }})\n- [Reject]({{ reject_url }})\n- [Defer Decision]({{ defer_url }})\n\n**Budget Context**:\n- This month: ${{ month_spent }} / ${{ month_budget }}\n- This category: ${{ category_spent }} / ${{ category_budget }}\n\n---\nHome Ops Assistant"
+      },
+      "wait_for_response": true,
+      "timeout_minutes": 720,
+      "reminder_schedule": [120, 360]
+    },
+    {
+      "id": "decision_routing",
+      "type": "conditional",
+      "conditions": [
+        {
+          "if": "{{ user_action }} == 'approve'",
+          "then": "execute_purchase"
+        },
+        {
+          "if": "{{ user_action }} == 'modify'",
+          "then": "modify_purchase"
+        },
+        {
+          "if": "{{ user_action }} == 'reject'",
+          "then": "cancel_purchase"
+        },
+        {
+          "if": "{{ user_action }} == 'defer'",
+          "then": "defer_purchase"
+        },
+        {
+          "if": "{{ timeout_reached }}",
+          "then": "escalate"
+        }
+      ]
+    },
+    {
+      "id": "execute_purchase",
+      "type": "action",
+      "action": "complete_purchase",
+      "inputs": {
+        "purchase_id": "{{ purchase_id }}",
+        "approved_by": "{{ user_name }}",
+        "approved_at": "{{ approval_timestamp }}",
+        "approved_amount": "{{ purchase_amount }}"
+      },
+      "next": "record_transaction"
+    },
+    {
+      "id": "modify_purchase",
+      "type": "ai_action",
+      "action": "request_modifications",
+      "inputs": {
+        "purchase_id": "{{ purchase_id }}",
+        "modifications": "{{ user_modifications }}"
+      },
+      "note": "Returns to approval with modified details",
+      "next": "approval_notification"
+    },
+    {
+      "id": "cancel_purchase",
+      "type": "action",
+      "action": "cancel_purchase_request",
+      "inputs": {
+        "purchase_id": "{{ purchase_id }}",
+        "reason": "{{ rejection_reason }}"
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "defer_purchase",
+      "type": "action",
+      "action": "defer_decision",
+      "inputs": {
+        "purchase_id": "{{ purchase_id }}",
+        "defer_until": "{{ defer_date }}",
+        "defer_reason": "{{ defer_reason }}"
+      },
+      "next": "schedule_reminder"
+    },
+    {
+      "id": "schedule_reminder",
+      "type": "scheduling",
+      "action": "schedule_reminder",
+      "inputs": {
+        "remind_at": "{{ defer_date }}",
+        "message": "Reminder: Purchase decision deferred - {{ item_description }}"
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "record_transaction",
+      "type": "data_action",
+      "actions": [
+        {
+          "system": "budget_tracker",
+          "action": "record_expense",
+          "data": {
+            "amount": "{{ purchase_amount }}",
+            "category": "{{ category }}",
+            "vendor": "{{ vendor_name }}",
+            "date": "{{ purchase_date }}",
+            "approved_by": "{{ user_name }}"
+          }
+        },
+        {
+          "system": "task_system",
+          "action": "update_task",
+          "data": {
+            "task_id": "{{ related_task_id }}",
+            "status": "completed",
+            "notes": "Purchase approved: ${{ purchase_amount }}"
+          }
+        }
+      ],
+      "next": "log_action"
+    },
+    {
+      "id": "escalate",
+      "type": "notification",
+      "channels": ["sms"],
+      "template": {
+        "subject": "⚠️ Purchase Approval Urgent",
+        "body": "A ${{ purchase_amount }} purchase request has been pending for 12 hours. Please review: {{ approval_url }}"
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "log_action",
+      "type": "logging",
+      "log_data": {
+        "workflow_id": "spending_approval",
+        "purchase_id": "{{ purchase_id }}",
+        "item": "{{ item_description }}",
+        "amount": "{{ purchase_amount }}",
+        "category": "{{ category }}",
+        "action_taken": "{{ user_action }}",
+        "timestamp": "{{ action_timestamp }}",
+        "response_time_minutes": "{{ response_time }}"
+      }
+    }
+  ],
+  "metrics": {
+    "track": [
+      "approval_rate",
+      "average_response_time",
+      "average_approved_amount",
+      "rejection_rate",
+      "modification_rate",
+      "defer_rate"
+    ]
+  },
+  "budget_tracking": {
+    "update_on_approval": true,
+    "alert_thresholds": {
+      "monthly_budget_80_percent": true,
+      "category_budget_90_percent": true
+    }
+  },
+  "fallback": {
+    "on_error": "notify_admin",
+    "action": "cancel_purchase"
+  }
+}

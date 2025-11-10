@@ -1,0 +1,224 @@
+{
+  "workflow": {
+    "id": "task_approval",
+    "name": "Task Approval Workflow",
+    "description": "Human-in-the-loop workflow for task creation and updates",
+    "version": "1.0"
+  },
+  "trigger": {
+    "type": "ai_action",
+    "action": "create_or_update_task",
+    "conditions": [
+      {
+        "field": "requiresApproval",
+        "operator": "equals",
+        "value": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "task_preparation",
+      "type": "ai_action",
+      "action": "prepare_task_details",
+      "inputs": {
+        "task_id": "{{ task_id }}",
+        "task_type": "{{ task_type }}",
+        "action": "{{ create_or_update }}"
+      },
+      "outputs": {
+        "task_summary": "object"
+      }
+    },
+    {
+      "id": "approval_notification",
+      "type": "notification",
+      "channels": ["email"],
+      "template": {
+        "subject": "✅ Task Approval: {{ task_title }}",
+        "body": "Hi {{ user_name }},\n\nThe AI has {{ action_verb }} a task that needs your approval:\n\n**Task**: {{ task_title }}\n**Category**: {{ task_category }}\n**Owner**: {{ task_owner }}\n**Due Date**: {{ due_date }}\n**Priority**: {{ priority }}\n**Estimated Time**: {{ estimated_minutes }} minutes\n\n**Description**:\n{{ task_description }}\n\n**Why This Matters**:\n{{ justification }}\n\n**Dependencies**:\n{{ dependencies_list }}\n\n**Actions**:\n- [Approve Task]({{ approve_url }})\n- [Modify Details]({{ modify_url }})\n- [Assign to Someone Else]({{ reassign_url }})\n- [Reject]({{ reject_url }})\n\n**Current Workload**:\n- Your pending tasks: {{ user_pending_tasks }}\n- This week's tasks: {{ week_task_count }}\n- High priority: {{ high_priority_count }}\n\n---\nHome Ops Assistant"
+      },
+      "wait_for_response": true,
+      "timeout_minutes": 480,
+      "reminder_schedule": [120, 360]
+    },
+    {
+      "id": "decision_routing",
+      "type": "conditional",
+      "conditions": [
+        {
+          "if": "{{ user_action }} == 'approve'",
+          "then": "create_task"
+        },
+        {
+          "if": "{{ user_action }} == 'modify'",
+          "then": "modify_task"
+        },
+        {
+          "if": "{{ user_action }} == 'reassign'",
+          "then": "reassign_task"
+        },
+        {
+          "if": "{{ user_action }} == 'reject'",
+          "then": "reject_task"
+        },
+        {
+          "if": "{{ timeout_reached }}",
+          "then": "auto_approve_low_priority"
+        }
+      ]
+    },
+    {
+      "id": "create_task",
+      "type": "action",
+      "action": "finalize_task",
+      "inputs": {
+        "task_id": "{{ task_id }}",
+        "status": "Approved",
+        "approved_by": "{{ user_name }}",
+        "approved_at": "{{ approval_timestamp }}"
+      },
+      "next": "add_to_task_system"
+    },
+    {
+      "id": "add_to_task_system",
+      "type": "integration",
+      "system": "notion",
+      "action": "create_or_update_task",
+      "inputs": {
+        "database": "home_ops_tasks",
+        "task_data": "{{ task_summary }}"
+      },
+      "next": "set_reminders"
+    },
+    {
+      "id": "set_reminders",
+      "type": "action",
+      "action": "schedule_reminders",
+      "inputs": {
+        "task_id": "{{ task_id }}",
+        "due_date": "{{ due_date }}",
+        "reminder_schedule": "{{ reminder_schedule }}"
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "modify_task",
+      "type": "ai_action",
+      "action": "apply_modifications",
+      "inputs": {
+        "task_id": "{{ task_id }}",
+        "modifications": "{{ user_modifications }}"
+      },
+      "next": "approval_notification"
+    },
+    {
+      "id": "reassign_task",
+      "type": "action",
+      "action": "change_task_owner",
+      "inputs": {
+        "task_id": "{{ task_id }}",
+        "new_owner": "{{ new_owner }}",
+        "reassignment_note": "{{ reassignment_note }}"
+      },
+      "next": "notify_new_owner"
+    },
+    {
+      "id": "notify_new_owner",
+      "type": "notification",
+      "channels": ["email"],
+      "recipient": "{{ new_owner }}",
+      "template": {
+        "subject": "New Task Assigned: {{ task_title }}",
+        "body": "You've been assigned a task:\n\n{{ task_summary }}\n\nDue: {{ due_date }}"
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "reject_task",
+      "type": "action",
+      "action": "cancel_task",
+      "inputs": {
+        "task_id": "{{ task_id }}",
+        "status": "Rejected",
+        "reason": "{{ rejection_reason }}"
+      },
+      "next": "ai_learning"
+    },
+    {
+      "id": "ai_learning",
+      "type": "ai_action",
+      "action": "learn_from_rejection",
+      "inputs": {
+        "task_id": "{{ task_id }}",
+        "rejection_reason": "{{ rejection_reason }}",
+        "task_characteristics": "{{ task_summary }}"
+      },
+      "note": "AI learns to avoid similar task creations in the future",
+      "next": "log_action"
+    },
+    {
+      "id": "auto_approve_low_priority",
+      "type": "conditional",
+      "conditions": [
+        {
+          "if": "{{ priority }} in ['Low', 'Medium']",
+          "then": "create_task"
+        },
+        {
+          "if": "{{ priority }} in ['High', 'Critical']",
+          "then": "escalate"
+        }
+      ]
+    },
+    {
+      "id": "escalate",
+      "type": "notification",
+      "channels": ["sms"],
+      "template": {
+        "subject": "⚠️ High Priority Task Needs Approval",
+        "body": "{{ task_title }} ({{ priority }}) has been pending approval for 8 hours. Please review."
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "log_action",
+      "type": "logging",
+      "log_data": {
+        "workflow_id": "task_approval",
+        "task_id": "{{ task_id }}",
+        "task_title": "{{ task_title }}",
+        "category": "{{ task_category }}",
+        "priority": "{{ priority }}",
+        "action_taken": "{{ user_action }}",
+        "timestamp": "{{ action_timestamp }}",
+        "response_time_minutes": "{{ response_time }}"
+      }
+    }
+  ],
+  "batch_processing": {
+    "enabled": true,
+    "batch_window_minutes": 60,
+    "max_batch_size": 10,
+    "description": "Batch multiple task approvals into a single notification"
+  },
+  "smart_defaults": {
+    "learn_from_approvals": true,
+    "suggest_similar_tasks": true,
+    "predict_approval_likelihood": true
+  },
+  "metrics": {
+    "track": [
+      "approval_rate",
+      "average_response_time",
+      "modification_rate",
+      "rejection_rate",
+      "reassignment_rate",
+      "auto_approval_rate"
+    ]
+  },
+  "fallback": {
+    "on_error": "notify_admin",
+    "action": "save_as_draft"
+  }
+}

@@ -1,0 +1,276 @@
+{
+  "agent": {
+    "name": "Home Operations Assistant",
+    "version": "1.0.0",
+    "modelPreference": "claude-3-5-sonnet-20241022",
+    "systemPromptPath": "./home-ops-agent-prompt.md",
+    "maxTokens": 4096,
+    "temperature": 0.7
+  },
+  "phase": {
+    "current": "phase1_shadow",
+    "phases": {
+      "phase1_shadow": {
+        "name": "Shadow Assistant",
+        "duration": "3 weeks",
+        "autonomyLevel": "none",
+        "description": "Learning phase - no autonomous actions, all outputs require approval"
+      },
+      "phase2_controlled": {
+        "name": "Controlled Autonomy",
+        "duration": "4 weeks",
+        "autonomyLevel": "limited",
+        "description": "Can auto-create tasks and update records, but not send communications"
+      },
+      "phase3_selective": {
+        "name": "Selective Full Autonomy",
+        "duration": "ongoing",
+        "autonomyLevel": "selective",
+        "description": "Full autonomy for pre-approved categories, approval required for others"
+      }
+    }
+  },
+  "autonomy": {
+    "spendingThreshold": {
+      "requireApproval": 500,
+      "autoApprove": 200,
+      "noSpending": 0,
+      "currency": "USD"
+    },
+    "timeThresholds": {
+      "quickTask": 15,
+      "mediumTask": 60,
+      "longTask": 120,
+      "unit": "minutes"
+    },
+    "autoApproveCategories": {
+      "phase1": [],
+      "phase2": [
+        "task_creation",
+        "record_updates",
+        "calendar_sync",
+        "conflict_detection"
+      ],
+      "phase3": [
+        "task_creation",
+        "record_updates",
+        "calendar_sync",
+        "conflict_detection",
+        "kids_rsvp",
+        "routine_appointments",
+        "vendor_scheduling",
+        "inventory_orders_under_threshold"
+      ]
+    },
+    "alwaysRequireApproval": [
+      "vip_communication",
+      "financial_decisions",
+      "legal_matters",
+      "medical_decisions",
+      "travel_changes",
+      "major_commitments",
+      "high_priority_cancellations"
+    ]
+  },
+  "vipContacts": {
+    "description": "Contacts requiring approval for any communication",
+    "categories": [
+      "investors",
+      "legal_counsel",
+      "financial_advisors",
+      "press",
+      "business_partners",
+      "family_vip"
+    ],
+    "identificationMethod": "email_domain_or_explicit_list"
+  },
+  "workingHours": {
+    "timezone": "America/Los_Angeles",
+    "standard": {
+      "monday": { "start": "07:00", "end": "22:00" },
+      "tuesday": { "start": "07:00", "end": "22:00" },
+      "wednesday": { "start": "07:00", "end": "22:00" },
+      "thursday": { "start": "07:00", "end": "22:00" },
+      "friday": { "start": "07:00", "end": "22:00" },
+      "saturday": { "start": "08:00", "end": "22:00" },
+      "sunday": { "start": "08:00", "end": "22:00" }
+    },
+    "urgentOnly": {
+      "start": "22:00",
+      "end": "07:00",
+      "definition": "Only critical/emergency notifications during these hours"
+    }
+  },
+  "notifications": {
+    "channels": {
+      "email": {
+        "enabled": true,
+        "address": "luke@example.com",
+        "frequency": "immediate_for_approval_requests"
+      },
+      "sms": {
+        "enabled": true,
+        "number": "+1-XXX-XXX-XXXX",
+        "frequency": "urgent_only"
+      },
+      "slack": {
+        "enabled": false,
+        "webhook": "",
+        "frequency": "daily_summary"
+      }
+    },
+    "summaries": {
+      "daily": {
+        "enabled": true,
+        "time": "07:00",
+        "includes": ["todays_events", "pending_approvals", "conflicts", "completed_tasks"]
+      },
+      "weekly": {
+        "enabled": true,
+        "day": "monday",
+        "time": "07:00",
+        "includes": ["week_overview", "upcoming_deadlines", "project_status", "metrics"]
+      }
+    }
+  },
+  "integrations": {
+    "email": {
+      "provider": "gmail",
+      "enabled": true,
+      "scopes": ["read", "draft"],
+      "autoSendEnabled": false
+    },
+    "calendar": {
+      "provider": "google_calendar",
+      "enabled": true,
+      "calendars": ["family", "luke_personal", "lucy_personal", "kids"],
+      "autoCreateEnabled": false
+    },
+    "tasks": {
+      "provider": "notion",
+      "enabled": true,
+      "database": "home_ops_tasks",
+      "autoCreateEnabled": false
+    },
+    "contacts": {
+      "provider": "google_contacts",
+      "enabled": true,
+      "readOnly": true
+    },
+    "documents": {
+      "provider": "google_drive",
+      "enabled": true,
+      "basePath": "/HomeOps",
+      "autoOrganize": false
+    }
+  },
+  "dataRetention": {
+    "completedTasks": "1_year",
+    "logs": "6_months",
+    "drafts": "30_days",
+    "archivedProjects": "indefinite"
+  },
+  "security": {
+    "encryptionAtRest": true,
+    "encryptionInTransit": true,
+    "auditLogging": true,
+    "dataAccessControls": true,
+    "complianceStandards": ["GDPR", "CCPA"]
+  },
+  "categories": {
+    "tasks": [
+      "school",
+      "activities",
+      "medical",
+      "social",
+      "home_maintenance",
+      "vendors",
+      "shopping",
+      "travel",
+      "personal_admin",
+      "business_support",
+      "ciao_lucia"
+    ],
+    "priorities": [
+      "Critical",
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "owners": [
+      "Luke",
+      "Lucy",
+      "AI",
+      "HumanAssistant"
+    ],
+    "statuses": [
+      "Draft",
+      "Pending Approval",
+      "Approved",
+      "In Progress",
+      "Completed",
+      "Cancelled"
+    ]
+  },
+  "aiGuidelines": {
+    "conflictResolution": {
+      "priorityOrder": ["Critical", "High", "Medium", "Low"],
+      "tieBreaker": "earliest_due_date",
+      "escalateIfAmbiguous": true
+    },
+    "taskEstimation": {
+      "useHistoricalData": true,
+      "bufferPercentage": 20,
+      "roundTo": 5
+    },
+    "proactiveActions": {
+      "leadTimes": {
+        "birthday_gift": 5,
+        "travel_prep": 7,
+        "event_planning": 14,
+        "vendor_booking": 7,
+        "unit": "days"
+      },
+      "reminderFrequency": {
+        "critical": "daily",
+        "high": "every_3_days",
+        "medium": "weekly",
+        "low": "bi_weekly"
+      }
+    }
+  },
+  "feedback": {
+    "collectionEnabled": true,
+    "requestAfter": {
+      "completedTasks": 10,
+      "days": 7
+    },
+    "metrics": [
+      "time_saved",
+      "tasks_completed",
+      "conflicts_resolved",
+      "approval_rate",
+      "error_rate"
+    ]
+  },
+  "customRules": {
+    "description": "User-specific rules and preferences",
+    "rules": [
+      {
+        "id": "no_meetings_before_9am",
+        "description": "Never schedule meetings before 9am unless explicitly requested",
+        "priority": "high"
+      },
+      {
+        "id": "kids_activities_priority",
+        "description": "Kids' activities always take priority over non-critical adult commitments",
+        "priority": "critical"
+      },
+      {
+        "id": "dinner_home_weeknights",
+        "description": "Protect 6-8pm weeknights for family dinner unless exceptions noted",
+        "priority": "high"
+      }
+    ]
+  }
+}

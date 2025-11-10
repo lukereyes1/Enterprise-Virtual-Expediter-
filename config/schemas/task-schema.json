@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://homeops.ai/schemas/task.json",
+  "title": "Task",
+  "description": "A discrete unit of work to be completed",
+  "type": "object",
+  "required": ["id", "title", "owner", "dueDate", "priority", "category", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the task",
+      "pattern": "^task-[a-z0-9-]+$"
+    },
+    "title": {
+      "type": "string",
+      "description": "Clear, actionable task title",
+      "minLength": 3,
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of what needs to be done"
+    },
+    "owner": {
+      "type": "string",
+      "enum": ["Luke", "Lucy", "AI", "HumanAssistant"],
+      "description": "Who is responsible for this task"
+    },
+    "assignee": {
+      "type": "string",
+      "description": "Person ID if assigned to a specific person"
+    },
+    "dueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date by which task should be completed (ISO 8601 format)"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["Critical", "High", "Medium", "Low"],
+      "description": "Urgency and importance of the task"
+    },
+    "category": {
+      "type": "string",
+      "description": "Task category for organization and filtering",
+      "enum": [
+        "school",
+        "activities",
+        "medical",
+        "social",
+        "home_maintenance",
+        "vendors",
+        "shopping",
+        "travel",
+        "personal_admin",
+        "business_support",
+        "ciao_lucia"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Draft", "Pending Approval", "Approved", "In Progress", "Completed", "Cancelled"],
+      "description": "Current state of the task"
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Estimated time to complete in minutes"
+    },
+    "actualMinutes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Actual time taken in minutes (populated on completion)"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^task-[a-z0-9-]+$"
+      },
+      "description": "Task IDs that must be completed before this one"
+    },
+    "relatedEntity": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["Person", "Vendor", "Event", "Project"]
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "description": "Link to related entity if applicable"
+    },
+    "requiresApproval": {
+      "type": "boolean",
+      "description": "Whether this task needs user approval before execution"
+    },
+    "approvalReason": {
+      "type": "string",
+      "description": "Why approval is required"
+    },
+    "approvedBy": {
+      "type": "string",
+      "description": "Who approved the task"
+    },
+    "approvedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the task was approved"
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the task was completed"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the task was created"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the task was last updated"
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "Who or what created this task",
+      "enum": ["AI", "Luke", "Lucy", "HumanAssistant", "System"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Additional tags for filtering and organization"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "author": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Running notes and updates on the task"
+    },
+    "recurrence": {
+      "type": "object",
+      "properties": {
+        "frequency": {
+          "type": "string",
+          "enum": ["daily", "weekly", "biweekly", "monthly", "quarterly", "yearly"]
+        },
+        "interval": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "endAfterOccurrences": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "description": "Recurrence pattern if this is a recurring task"
+    }
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "workflow": {
+    "id": "email_approval",
+    "name": "Email Approval Workflow",
+    "description": "Human-in-the-loop workflow for email communications",
+    "version": "1.0"
+  },
+  "trigger": {
+    "type": "ai_action",
+    "action": "draft_email",
+    "conditions": [
+      {
+        "field": "requiresApproval",
+        "operator": "equals",
+        "value": true
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "draft_creation",
+      "type": "ai_action",
+      "action": "create_draft",
+      "inputs": {
+        "recipient": "{{ recipient_email }}",
+        "subject": "{{ email_subject }}",
+        "body": "{{ email_body }}",
+        "cc": "{{ cc_list }}",
+        "attachments": "{{ attachment_list }}"
+      },
+      "outputs": {
+        "draft_id": "string",
+        "draft_url": "string"
+      }
+    },
+    {
+      "id": "approval_notification",
+      "type": "notification",
+      "channels": ["email", "sms"],
+      "template": {
+        "subject": "📧 Email Approval Needed: {{ email_subject }}",
+        "body": "Hi {{ user_name }},\n\nThe AI has drafted an email that needs your approval:\n\n**To**: {{ recipient_email }}\n**Subject**: {{ email_subject }}\n**Category**: {{ category }}\n**Approval Reason**: {{ approval_reason }}\n\n**Draft Preview**:\n{{ email_body_preview }}\n\n**Actions**:\n- [Approve & Send]({{ approve_url }})\n- [Edit Draft]({{ edit_url }})\n- [Reject]({{ reject_url }})\n\n**Context**:\n{{ context_info }}\n\n---\nHome Ops Assistant"
+      },
+      "wait_for_response": true,
+      "timeout_minutes": 1440,
+      "reminder_schedule": [60, 240, 1440]
+    },
+    {
+      "id": "decision_routing",
+      "type": "conditional",
+      "conditions": [
+        {
+          "if": "{{ user_action }} == 'approve'",
+          "then": "send_email"
+        },
+        {
+          "if": "{{ user_action }} == 'edit'",
+          "then": "edit_draft"
+        },
+        {
+          "if": "{{ user_action }} == 'reject'",
+          "then": "cancel_draft"
+        },
+        {
+          "if": "{{ timeout_reached }}",
+          "then": "escalate"
+        }
+      ]
+    },
+    {
+      "id": "send_email",
+      "type": "action",
+      "action": "send_email",
+      "inputs": {
+        "draft_id": "{{ draft_id }}",
+        "approved_by": "{{ user_name }}",
+        "approved_at": "{{ approval_timestamp }}"
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "edit_draft",
+      "type": "action",
+      "action": "open_draft_for_editing",
+      "inputs": {
+        "draft_id": "{{ draft_id }}",
+        "redirect_url": "{{ edit_url }}"
+      },
+      "note": "User will manually edit and send or return to approval",
+      "next": "log_action"
+    },
+    {
+      "id": "cancel_draft",
+      "type": "action",
+      "action": "delete_draft",
+      "inputs": {
+        "draft_id": "{{ draft_id }}",
+        "reason": "{{ rejection_reason }}"
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "escalate",
+      "type": "notification",
+      "channels": ["sms", "email"],
+      "template": {
+        "subject": "⚠️ Email Approval Timeout",
+        "body": "An email draft to {{ recipient_email }} has been pending approval for 24 hours. Please review."
+      },
+      "next": "log_action"
+    },
+    {
+      "id": "log_action",
+      "type": "logging",
+      "log_data": {
+        "workflow_id": "email_approval",
+        "draft_id": "{{ draft_id }}",
+        "recipient": "{{ recipient_email }}",
+        "subject": "{{ email_subject }}",
+        "action_taken": "{{ user_action }}",
+        "timestamp": "{{ action_timestamp }}",
+        "response_time_minutes": "{{ response_time }}"
+      }
+    },
+    {
+      "id": "feedback_collection",
+      "type": "optional_feedback",
+      "question": "Was this approval notification helpful and timely?",
+      "options": ["Yes", "No", "Needs improvement"],
+      "follow_up": "What could we improve?"
+    }
+  ],
+  "metrics": {
+    "track": [
+      "approval_rate",
+      "average_response_time",
+      "edit_rate",
+      "rejection_rate",
+      "timeout_rate"
+    ]
+  },
+  "fallback": {
+    "on_error": "notify_admin",
+    "action": "preserve_draft"
+  }
+}
