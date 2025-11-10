@@ -1,0 +1,11 @@
+Audience,Step,Action,Details
+"Sales Team",1,"Receive Inquiry","Notification via email/Slack with Event ID"
+"Sales Team",2,"Review Submission","Confirm auto-generated Event ID and check required fields"
+"Sales Team",3,"Assess Risk","Complete internal risk assessment columns"
+"Sales Team",4,"Qualify Lead","Reference Qualification Checklist (1.2)"
+"Sales Team",5,"Take Action","Send acknowledgment, schedule discovery call, prepare proposal"
+"Client",1,"Access Form","Website embed, emailed link, or PDF"
+"Client",2,"Complete Required Fields","Fields marked with * must be filled before submission"
+"Client",3,"Provide Context","Encourage narrative in description and special request fields"
+"Client",4,"Save Draft","Use Save Draft button to pause"
+"Client",5,"Submit","Click Submit Lead Intake Form to finish and receive confirmation"

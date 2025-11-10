@@ -1,0 +1,6 @@
+Metric,Target,Calculation,Notes
+"Form Completion Rate",">75%","=Submissions/Form Opens","Track via Google Analytics events or Apps Script"
+"Time to First Response","<24 hours","=First Response Timestamp - Submission Timestamp","Set reminders for overdue leads"
+"Lead Qualification Rate",">60%","=Qualified Leads/Total Submissions","Requires maintaining lead status column"
+"Submission to Quote Rate",">50%","=Quotes Sent/Qualified Leads","Monitor proposal follow-through"
+"Quote to Contract Rate",">30%","=Contracts Signed/Quotes Sent","Evaluate win rate and pricing alignment"

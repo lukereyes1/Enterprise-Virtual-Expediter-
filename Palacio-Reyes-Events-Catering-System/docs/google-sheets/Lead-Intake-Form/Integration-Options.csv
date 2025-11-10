@@ -1,0 +1,6 @@
+Option,Description,Key Steps,Notes
+"JavaScript Backend","POST submissions to a REST API","Collect form data, POST JSON to API, handle success/error states","Use fetch with auth headers and server-side email automation"
+"Google Apps Script","Append submissions directly to Google Sheet","Create sheet, deploy web app endpoint, POST payload","MailApp can send autoresponse; protect internal columns"
+"Email Submission","Send structured email payload for manual review","Generate mailto with Event ID in subject and JSON body","Requires server-side processing for automation"
+"JSON Export","Allow download of form data for offline transfer","Provide Export JSON button and include Event ID","Useful for CRM integrations or manual upload"
+"CSV Import","Align with Event Master Sheet columns","Map JSON export to CSV template before import","Ensure column order matches Event Master Sheet structure"
