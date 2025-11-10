@@ -1,0 +1,8 @@
+Rule,Description,Applies To,Implementation Guidance
+"Required Fields","Ensure all critical client-facing fields are populated before submission","Preferred Event Date; Venue Name; Guest Counts; Service Style; Primary Contact; Priorities","Use Google Sheets data validation and conditional formatting to highlight blanks"
+"Headcount Consistency","Maximum guest count must be >= target and target >= minimum","Minimum/Target/Maximum Guest Count","Custom formula: =AND($C2>=$B2,$B2>=$A2)"
+"Budget Consistency","Target and high budgets cannot be less than low budgets","Budget columns","Custom formula: =AND($F2>=$E2,$E2>=$D2)"
+"Phone Format","Automatically format phone numbers as (###) ###-####","Phone fields","Use onEdit Apps Script with REGEXREPLACE or DATA VALIDATION with =REGEXMATCH"
+"Email Format","Validate entries contain a mailbox and domain","Email fields","Data validation: =REGEXMATCH(A2,'^[^@]+@[^@]+\\.[^@]+$')"
+"Risk Visibility","Keep internal-only assessments private","Staff-only columns","Move to protected sheet or hide columns for client view"
+"Privacy Consent","Block submission unless consent checkbox is checked","Privacy Consent","Data validation list TRUE/FALSE with default FALSE; require TRUE"
