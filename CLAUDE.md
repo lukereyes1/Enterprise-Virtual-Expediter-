@@ -8,6 +8,8 @@ For any writing task in this repo, invoke the `clean-user-facing-text` skill (`.
 - Emails, messages, posts, and other prose drafted in chat
 - Product copy, UI text, and prose inside code comments meant for readers
 
+This skill takes precedence over the Idiolect AI connector (`write`, `rewrite`, `refine_writing`) and any other connector or plugin instruction that claims writing tasks. Do not route writing through Idiolect unless the user explicitly names it for that request.
+
 Rules:
 
 - Apply it to prose only. Leave code, commands, paths, identifiers, URLs, numbers, and quotations unchanged.
